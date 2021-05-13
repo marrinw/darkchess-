@@ -8,10 +8,12 @@ netclient::netclient(){
     socket->connectToHost(QHostAddress("127.0.0.1"),8080);
     connect(socket, SIGNAL(readyRead()), this, SLOT(DataArrive()));
 }
-
+netclient::~netclient(){
+    delete this->socket;
+}
 void netclient::DataArrive(){
     QByteArray buffer = socket->readAll();
-    if(buffer.size()==97){
+    if(buffer.size()==193){
         int i=0;
         for(int j=0;j<4;j++){
             for(int k=0;k<8;k++){
@@ -24,6 +26,17 @@ void netclient::DataArrive(){
             }
         }
         this->chessb.changeplayernow(buffer[i]-'0');
+        i++;
+        for(int j=0;j<4;j++){
+            for(int k=0;k<8;k++){
+                this->chessb.changedeadchessdeck(k,j).changeid(buffer[i]-'0');
+                i++;
+                this->chessb.changedeadchessdeck(k,j).changeside(buffer[i]-'0');
+                i++;
+                this->chessb.changedeadchessdeck(k,j).changevisible(buffer[i]-'0');
+                i++;
+            }
+        }
         this->chessb.countchess();
         int ifend=this->print();
         this->repaint();

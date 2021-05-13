@@ -15,6 +15,7 @@ class netserver:public pvp{
         QTcpSocket* socket;
     public:
         netserver();
+        ~netserver();
         void sendinfo();
     public slots:
         virtual void ConnectToClient();

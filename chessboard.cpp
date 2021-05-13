@@ -9,6 +9,7 @@ void chessboard::initialize(){
     this->chessVisible[1]=0;
     this->chessRemained[0]=16;
     this->chessRemained[1]=16;
+    this->deadchesscount=0;
     bool tempoccupied[32]={0};
     for(int side=0;side<2;side++){
         unsigned seed=time(0);
@@ -68,6 +69,11 @@ void chessboard::initialize(){
               this->chessdeck[i/8][i%8].initialize(7,side);
         }
     }
+    for(int i=0;i<4;i++){
+        for(int j=0;j<8;j++){
+            this->deadchessdeck[i][j].initialize(0,0);
+        }
+    }
 }
 void chessboard::turn(int x,int y){
     this->chessdeck[y][x].changevisible(1);
@@ -82,6 +88,8 @@ void chessboard::justmove(int x,int y,int x2,int y2){
 void chessboard::killandmove(int x,int y,int x2,int y2){
     this->chessRemained[this->chessdeck[y2][x2].getside()]--;
     this->chessVisible[this->chessdeck[y2][x2].getside()]--;
+    this->deadchessdeck[this->deadchesscount/8][this->deadchesscount%8]=this->getchessdeck(x2,y2);
+    this->deadchesscount++;
     this->chessdeck[y2][x2].changeid(this->chessdeck[y][x].getid());
     this->chessdeck[y2][x2].changeside(this->chessdeck[y][x].getside());
     this->chessdeck[y][x].changeid(0);
@@ -147,8 +155,15 @@ bool chessboard::getplayernow(){
 chessman chessboard::getchessdeck(int x,int y) const{
     return this->chessdeck[y][x];
 }
+
+chessman chessboard::getdeadchessdeck(int x, int y) const{
+    return this->deadchessdeck[y][x];
+}
 chessman& chessboard::changechessdeck(int x, int y){
     return this->chessdeck[y][x];
+}
+chessman& chessboard::changedeadchessdeck(int x,int y){
+    return this->deadchessdeck[y][x];
 }
 void chessboard::func(int x, int y){
     if(!this->duringfunc){

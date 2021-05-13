@@ -1,6 +1,7 @@
 #include<agentvsagent.h>
 
 void agentvsagent::getclicked(int x,int y){
+    return;
 
 };
 agentvsagent::agentvsagent(){
@@ -8,7 +9,7 @@ agentvsagent::agentvsagent(){
     this->sideB=1;
     this->setWindowTitle("机机对战");
     this->startButton=new QPushButton("开始机机对战",this);
-    this->startButton->move(980,300);
+    this->startButton->move(20,400);
     this->startButton->resize(140,50);
     connect(this->startButton,SIGNAL(clicked()),this,SLOT(startgame()));
 }

@@ -3,6 +3,7 @@
 clientagent::clientagent(){
     this->setWindowTitle("客户端机");
 }
+
 void clientagent::getclicked(int x,int y){
     return;
 }
@@ -21,7 +22,7 @@ void clientagent::sendinfo(){
 }
 void clientagent::DataArrive(){
     QByteArray buffer = socket->readAll();
-    if(buffer.size()==97){
+    if(buffer.size()==193){
         int i=0;
         for(int j=0;j<4;j++){
             for(int k=0;k<8;k++){
@@ -34,6 +35,17 @@ void clientagent::DataArrive(){
             }
         }
         this->chessb.changeplayernow(buffer[i]-'0');
+        i++;
+        for(int j=0;j<4;j++){
+            for(int k=0;k<8;k++){
+                this->chessb.changedeadchessdeck(k,j).changeid(buffer[i]-'0');
+                i++;
+                this->chessb.changedeadchessdeck(k,j).changeside(buffer[i]-'0');
+                i++;
+                this->chessb.changedeadchessdeck(k,j).changevisible(buffer[i]-'0');
+                i++;
+            }
+        }
         this->chessb.countchess();
         int ifend=this->print();
         this->repaint();

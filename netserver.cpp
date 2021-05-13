@@ -9,6 +9,11 @@ netserver::netserver(){
 
 }
 
+netserver::~netserver(){
+    delete this->socket;
+    delete this->server;
+}
+
 void netserver::DataArrive(){
     QByteArray buffer = socket->readAll();
     if(this->chessb.getplayernow()!=this->serverSide){
@@ -41,7 +46,7 @@ void netserver::ConnectToClient(){
 }
 void netserver::sendinfo(){
     this->socket->flush();
-    char info[97];
+    char info[193];
     int i=0;
     for(int j=0;j<4;j++){
         for(int k=0;k<8;k++){
@@ -54,11 +59,22 @@ void netserver::sendinfo(){
         }
     }
     info[i]=this->chessb.getplayernow()+'0';
+    i++;
+    for(int j=0;j<4;j++){
+        for(int k=0;k<8;k++){
+            info[i]=this->chessb.getdeadchessdeck(k,j).getid()+'0';
+            i++;
+            info[i]=this->chessb.getdeadchessdeck(k,j).getside()+'0';
+            i++;
+            info[i]=this->chessb.getdeadchessdeck(k,j).getvisible()+'0';
+            i++;
+        }
+    }
     int k;
     do{
         this->socket->flush();
-        k=this->socket->write(info,97);
-    }while(k!=97);
+        k=this->socket->write(info,193);
+    }while(k!=193);
 
 }
 void netserver::getclicked(int x,int y){

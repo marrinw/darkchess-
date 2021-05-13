@@ -4,7 +4,7 @@ serveragent::serveragent(){
     this->setWindowTitle("服务器端红机");
     this->flashButton=new QPushButton(this);
     this->flashButton->setFixedSize(250,80);
-    this->flashButton->move(960,50);
+    this->flashButton->move(20,400);
     this->flashButton->setText("刷新棋盘（如果卡了或不同步）");
     connect(this->flashButton,SIGNAL(clicked()),this,SLOT(flash()));
 }

@@ -11,6 +11,7 @@ class netclient:public pvp{
         QTcpSocket* socket;
     public:
         netclient();
+        ~netclient();
     public slots:
         virtual void DataArrive();
     public slots:

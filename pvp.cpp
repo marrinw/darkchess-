@@ -8,12 +8,27 @@ pvp::pvp(QWidget *parent):QMainWindow(parent){
     for(int i=0;i<4;i++){
         for(int j=0;j<8;j++){
             this->chessl[i][j]=new chesslabel(this,j,i);
-            this->chessl[i][j]->resize(100,100);
-            this->chessl[i][j]->move(5+j*105,5+i*105);
+            this->chessl[i][j]->resize(60,60);
+            this->chessl[i][j]->move(3+j*63,50+i*63);
         }
     }
+    for(int i=0;i<4;i++){
+        for(int j=0;j<8;j++){
+            this->deadchessl[i][j]=new QLabel(this);
+            this->deadchessl[i][j]->resize(60,60);
+            this->deadchessl[i][j]->move(550+j*63,50+i*63);
+        }
+    }
+    this->showboard=new QLabel(this);
+    this->showboard->move(10,10);
+    this->showboard->resize(40,20);
+    this->showboard->setText("棋盘");
+    this->showdeadboard=new QLabel(this);
+    this->showdeadboard->move(600,10);
+    this->showdeadboard->resize(80,20);
+    this->showdeadboard->setText("棋子尸体");
     this->showPlayerLabel=new QLabel(this);
-    this->showPlayerLabel->move(1000,300);
+    this->showPlayerLabel->move(20,300);
     this->showPlayerLabel->resize(120,80);
     this->print();
 }
@@ -35,7 +50,7 @@ int pvp::print(){
                     this->chessl[i][j]->setText("");
                 }else{
                     QFont ft;
-                    ft.setPointSize(26);
+                    ft.setPointSize(20);
                     this->chessl[i][j]->setFont(ft);
                     QPalette pe;
                     pe.setColor(QPalette::Background,Qt::white);
@@ -81,6 +96,75 @@ int pvp::print(){
                                 this->chessl[i][j]->setText(" 兵");
                             }else{
                                 this->chessl[i][j]->setText(" 卒");
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+    for(int i=0;i<4;i++){
+            for(int j=0;j<8;j++){
+                if(!this->chessb.getdeadchessdeck(j,i).getid()){
+                    QPalette pe;
+                    pe.setColor(QPalette::Background,Qt::white);
+                    this->deadchessl[i][j]->setPalette(pe);
+
+                    this->deadchessl[i][j]->setAutoFillBackground(true);
+                    this->deadchessl[i][j]->setText("");
+                }else if(!this->chessb.getdeadchessdeck(j,i).getvisible()){
+                    QPalette pe;
+                    pe.setColor(QPalette::Background,Qt::black);
+                    this->deadchessl[i][j]->setPalette(pe);
+                    this->deadchessl[i][j]->setAutoFillBackground(true);
+                    this->deadchessl[i][j]->setText("");
+                }else{
+                    QFont ft;
+                    ft.setPointSize(20);
+                    this->deadchessl[i][j]->setFont(ft);
+                    QPalette pe;
+                    pe.setColor(QPalette::Background,Qt::white);
+                    if(this->chessb.getdeadchessdeck(j,i).getside()){
+                        pe.setColor(QPalette::WindowText,Qt::black);
+                    }else{
+                        pe.setColor(QPalette::WindowText,Qt::red);
+                    }
+                    this->deadchessl[i][j]->setPalette(pe);
+                    switch (this->chessb.getdeadchessdeck(j,i).getid()) {
+                        case 1:
+                            if(!this->chessb.getdeadchessdeck(j,i).getside()){
+                                this->deadchessl[i][j]->setText(" 帅");
+                            }else{
+                                this->deadchessl[i][j]->setText(" 将");
+                            }
+                            break;
+                        case 2:
+                            if(!this->chessb.getdeadchessdeck(j,i).getside()){
+                                this->deadchessl[i][j]->setText(" 仕");
+                            }else{
+                                this->deadchessl[i][j]->setText(" 士");
+                            }
+                            break;
+                        case 3:
+                            if(!this->chessb.getdeadchessdeck(j,i).getside()){
+                                this->deadchessl[i][j]->setText(" 相");
+                            }else{
+                                this->deadchessl[i][j]->setText(" 象");
+                            }
+                            break;
+                        case 4:
+                            this->deadchessl[i][j]->setText(" 车");
+                            break;
+                        case 5:
+                            this->deadchessl[i][j]->setText(" 马");
+                            break;
+                        case 6:
+                            this->deadchessl[i][j]->setText(" 炮");
+                            break;
+                        case 7:
+                            if(!this->chessb.getdeadchessdeck(j,i).getside()){
+                                this->deadchessl[i][j]->setText(" 兵");
+                            }else{
+                                this->deadchessl[i][j]->setText(" 卒");
                             }
                             break;
                     }

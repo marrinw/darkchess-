@@ -12,6 +12,8 @@ class chessboard{
         bool duringfunc;
         bool playernow;
         chessman chessdeck[4][8];
+        chessman deadchessdeck[4][8];
+        int deadchesscount;
         bool eatdeck[8][8]={
             0,0,0,0,0,0,0,0,
             1,1,1,1,1,1,1,0,
@@ -30,7 +32,9 @@ class chessboard{
         void justmove(int x,int y,int x2,int y2);   //move a chess to unoccupied
         void killandmove(int x,int y,int x2,int y2);        // a chess kill enemy
         chessman& changechessdeck(int x,int y);   //only used in client: use to change its chessdeck same to server
+        chessman& changedeadchessdeck(int x,int y);   //only used in client: use to change its deadchessdeck same to server
         chessman getchessdeck(int x,int y) const;       //use for give info to gui
+        chessman getdeadchessdeck(int x,int y) const;   //use for give info to gui
         void func(int x,int y);         //do the chess
         bool canmove(int x,int y,int x2,int y2);        //check if a chess can move to a position
         bool cankill(int x,int y,int x2,int y2);        //check if a chess can kill another

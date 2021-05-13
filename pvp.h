@@ -26,7 +26,10 @@ class pvp : public QMainWindow
     protected:
         chessboard chessb;
         chesslabel* chessl[4][8];
+        QLabel* deadchessl[4][8];
         QLabel* showPlayerLabel;
+        QLabel* showboard;
+        QLabel* showdeadboard;
 
 };
 
