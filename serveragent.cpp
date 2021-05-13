@@ -2,11 +2,7 @@
 
 serveragent::serveragent(){
     this->setWindowTitle("服务器端红机");
-    this->flashButton=new QPushButton(this);
-    this->flashButton->setFixedSize(250,80);
-    this->flashButton->move(20,400);
-    this->flashButton->setText("刷新棋盘（如果卡了或不同步）");
-    connect(this->flashButton,SIGNAL(clicked()),this,SLOT(flash()));
+
 }
 void serveragent::ConnectToClient(){
     this->socket=this->server->nextPendingConnection();
@@ -36,6 +32,7 @@ void serveragent::DataArrive(){
         }
         this->print();
         this->repaint();
+        this->socket->flush();
         this->sendinfo();
         //std::this_thread::sleep_for(std::chrono::milliseconds(550));
         if(this->chessb.getplayernow()==this->serverSide&&this->chessb.endgame()==3){
@@ -43,6 +40,7 @@ void serveragent::DataArrive(){
             std::this_thread::sleep_for(std::chrono::milliseconds(550));
             int ifend=this->print();
             this->repaint();
+            this->socket->flush();
             this->sendinfo();
             if(ifend!=3){
                 this->socket->close();
@@ -53,7 +51,4 @@ void serveragent::DataArrive(){
 }
 void serveragent::getclicked(int x,int y){
     return;
-}
-void serveragent::flash(){
-    this->sendinfo();
 }

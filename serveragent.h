@@ -8,13 +8,12 @@
 class serveragent:public netserver{
     Q_OBJECT
     protected:
-        QPushButton* flashButton;
+
     public:
         serveragent();
     public slots:
         virtual void ConnectToClient();
         virtual void DataArrive();
-        void flash();
         virtual void getclicked(int x,int y);
 
 };

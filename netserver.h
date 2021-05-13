@@ -13,6 +13,7 @@ class netserver:public pvp{
         bool serverSide;
         QTcpServer* server;
         QTcpSocket* socket;
+        QPushButton* flashButton;
     public:
         netserver();
         ~netserver();
@@ -22,6 +23,7 @@ class netserver:public pvp{
         virtual void DataArrive();
     public slots:
         virtual void getclicked(int x,int y);
+        void flash();
 };
 
 

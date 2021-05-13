@@ -1,10 +1,15 @@
 #include"netserver.h"
-
+#include<QPushButton>
 netserver::netserver(){
     this->serverSide=0;
     this->setWindowTitle("服务器端红人");
     this->server=new QTcpServer(this);
     this->server->listen(QHostAddress::Any,8080);
+    this->flashButton=new QPushButton(this);
+    this->flashButton->setFixedSize(250,80);
+    this->flashButton->move(20,400);
+    this->flashButton->setText("刷新棋盘（如果卡了或不同步）");
+    connect(this->flashButton,SIGNAL(clicked()),this,SLOT(flash()));
     connect(server,SIGNAL(newConnection()),this,SLOT(ConnectToClient()));
 
 }
@@ -12,6 +17,9 @@ netserver::netserver(){
 netserver::~netserver(){
     delete this->socket;
     delete this->server;
+}
+void netserver::flash(){
+    this->sendinfo();
 }
 
 void netserver::DataArrive(){
