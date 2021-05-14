@@ -570,84 +570,72 @@ void chessboard::cal(bool agentSide){
             }
             if(!flag4){
             //end try
-                vector<int> canMoveChessPos;
-                canMoveChessPos.clear();
+                vector<asspos> assPos;
+                assPos.clear();
                 for(int i=0;i<4;i++){
                     for(int j=0;j<8;j++){
                         if(this->chessdeck[i][j].getid()&&this->chessdeck[i][j].getvisible()&&this->chessdeck[i][j].getside()==agentSide){
-                            count2--;
+                            count3--;
                             if(this->chessdeck[i][j].getid()==6){
                                 continue;
                             }
-                            int flag3=0;
-                            for(int i2=0;i2<4;i2++){
-                                for(int j2=0;j2<8;j2++){
-                                    if(this->chessdeck[i2][j2].getid()==0&&this->canmove(j,i,j2,i2)){
-                                        int temp=i*8+j;
-                                        canMoveChessPos.push_back(temp);
-                                        flag3=1;
-                                    }
-                                    if(flag3){
-                                        break;
-                                    }
+                            bool tempflag1=0,tempflag2=0,tempflag3=0,tempflag4=0;
+                            if(i>0){
+                                if(this->chessdeck[i-1][j].getid()==0){
+                                    asspos tempAssPos;
+                                    tempAssPos.xfrom=j;
+                                    tempAssPos.yfrom=i;
+                                    tempAssPos.xto=j;
+                                    tempAssPos.yto=i-1;
+                                    assPos.push_back(tempAssPos);
                                 }
-                                if(flag3){
-                                    break;
+                            }
+                            if(j>0){
+                                if(this->chessdeck[i][j-1].getid()==0){
+                                    asspos tempAssPos;
+                                    tempAssPos.xfrom=j;
+                                    tempAssPos.yfrom=i;
+                                    tempAssPos.xto=j-1;
+                                    tempAssPos.yto=i;
+                                    assPos.push_back(tempAssPos);
+                                }
+                            }
+                            if(i<3){
+                                if(this->chessdeck[i+1][j].getid()==0){
+                                    asspos tempAssPos;
+                                    tempAssPos.xfrom=j;
+                                    tempAssPos.yfrom=i;
+                                    tempAssPos.xto=j;
+                                    tempAssPos.yto=i+1;
+                                    assPos.push_back(tempAssPos);
+                                }
+                            }
+                            if(j<7){
+                                if(this->chessdeck[i][j+1].getid()==0){
+                                    asspos tempAssPos;
+                                    tempAssPos.xfrom=j;
+                                    tempAssPos.yfrom=i;
+                                    tempAssPos.xto=j+1;
+                                    tempAssPos.yto=i;
+                                    assPos.push_back(tempAssPos);
                                 }
                             }
                         }
+                        if(count3==0){
+                            break;
+                        }
+                    }
+                    if(count3==0){
+                        break;
                     }
                 }
-                if(canMoveChessPos.size()){
+                if(assPos.size()){
                     flag4=1;
-                }
-                if(flag4){
-                    int randcount=rand()%canMoveChessPos.size();
-                    int pos=canMoveChessPos[randcount];
-                    xfrom=pos%8;
-                    yfrom=pos/8;
-                    vector<int> canfoward;
-                    canfoward.clear();
-                    if(yfrom>0){
-                        if(this->chessdeck[yfrom-1][xfrom].getid()==0){
-                            canfoward.push_back(0);
-                        }
-                    }
-                    if(xfrom>0){
-                        if(this->chessdeck[yfrom][xfrom-1].getid()==0){
-                            canfoward.push_back(1);
-                        }
-                    }
-                    if(yfrom<3){
-                        if(this->chessdeck[yfrom+1][xfrom].getid()==0){
-                            canfoward.push_back(2);
-                        }
-                    }
-                    if(xfrom<7){
-                        if(this->chessdeck[yfrom][xfrom+1].getid()==0){
-                            canfoward.push_back(3);
-                        }
-                    }
-                    randcount=rand()%canfoward.size();
-                    randcount=canfoward[randcount];
-                    switch (randcount) {
-                        case 0:
-                            xto=xfrom;
-                            yto=yfrom-1;
-                            break;
-                        case 1:
-                            xto=xfrom-1;
-                            yto=yfrom;
-                            break;
-                        case 2:
-                            xto=xfrom;
-                            yto=yfrom+1;
-                            break;
-                        case 3:
-                            xto=xfrom+1;
-                            yto=yfrom;
-                            break;
-                    }
+                    asspos tempAssPos=assPos[rand()%assPos.size()];
+                    xfrom=tempAssPos.xfrom;
+                    xto=tempAssPos.xto;
+                    yfrom=tempAssPos.yfrom;
+                    yto=tempAssPos.yto;
                 }
           }
     }
@@ -954,84 +942,72 @@ void chessboard::clientAgentCal(bool agentSide){
             }
             if(!flag4){
             //end try
-                vector<int> canMoveChessPos;
-                canMoveChessPos.clear();
+                vector<asspos> assPos;
+                assPos.clear();
                 for(int i=0;i<4;i++){
                     for(int j=0;j<8;j++){
                         if(this->chessdeck[i][j].getid()&&this->chessdeck[i][j].getvisible()&&this->chessdeck[i][j].getside()==agentSide){
-                            count2--;
+                            count3--;
                             if(this->chessdeck[i][j].getid()==6){
                                 continue;
                             }
-                            int flag3=0;
-                            for(int i2=0;i2<4;i2++){
-                                for(int j2=0;j2<8;j2++){
-                                    if(this->chessdeck[i2][j2].getid()==0&&this->canmove(j,i,j2,i2)){
-                                        int temp=i*8+j;
-                                        canMoveChessPos.push_back(temp);
-                                        flag3=1;
-                                    }
-                                    if(flag3){
-                                        break;
-                                    }
+                            bool tempflag1=0,tempflag2=0,tempflag3=0,tempflag4=0;
+                            if(i>0){
+                                if(this->chessdeck[i-1][j].getid()==0){
+                                    asspos tempAssPos;
+                                    tempAssPos.xfrom=j;
+                                    tempAssPos.yfrom=i;
+                                    tempAssPos.xto=j;
+                                    tempAssPos.yto=i-1;
+                                    assPos.push_back(tempAssPos);
                                 }
-                                if(flag3){
-                                    break;
+                            }
+                            if(j>0){
+                                if(this->chessdeck[i][j-1].getid()==0){
+                                    asspos tempAssPos;
+                                    tempAssPos.xfrom=j;
+                                    tempAssPos.yfrom=i;
+                                    tempAssPos.xto=j-1;
+                                    tempAssPos.yto=i;
+                                    assPos.push_back(tempAssPos);
+                                }
+                            }
+                            if(i<3){
+                                if(this->chessdeck[i+1][j].getid()==0){
+                                    asspos tempAssPos;
+                                    tempAssPos.xfrom=j;
+                                    tempAssPos.yfrom=i;
+                                    tempAssPos.xto=j;
+                                    tempAssPos.yto=i+1;
+                                    assPos.push_back(tempAssPos);
+                                }
+                            }
+                            if(j<7){
+                                if(this->chessdeck[i][j+1].getid()==0){
+                                    asspos tempAssPos;
+                                    tempAssPos.xfrom=j;
+                                    tempAssPos.yfrom=i;
+                                    tempAssPos.xto=j+1;
+                                    tempAssPos.yto=i;
+                                    assPos.push_back(tempAssPos);
                                 }
                             }
                         }
+                        if(count3==0){
+                            break;
+                        }
+                    }
+                    if(count3==0){
+                        break;
                     }
                 }
-                if(canMoveChessPos.size()){
+                if(assPos.size()){
                     flag4=1;
-                }
-                if(flag4){
-                    int randcount=rand()%canMoveChessPos.size();
-                    int pos=canMoveChessPos[randcount];
-                    xfrom=pos%8;
-                    yfrom=pos/8;
-                    vector<int> canfoward;
-                    canfoward.clear();
-                    if(yfrom>0){
-                        if(this->chessdeck[yfrom-1][xfrom].getid()==0){
-                            canfoward.push_back(0);
-                        }
-                    }
-                    if(xfrom>0){
-                        if(this->chessdeck[yfrom][xfrom-1].getid()==0){
-                            canfoward.push_back(1);
-                        }
-                    }
-                    if(yfrom<3){
-                        if(this->chessdeck[yfrom+1][xfrom].getid()==0){
-                            canfoward.push_back(2);
-                        }
-                    }
-                    if(xfrom<7){
-                        if(this->chessdeck[yfrom][xfrom+1].getid()==0){
-                            canfoward.push_back(3);
-                        }
-                    }
-                    randcount=rand()%canfoward.size();
-                    randcount=canfoward[randcount];
-                    switch (randcount) {
-                        case 0:
-                            xto=xfrom;
-                            yto=yfrom-1;
-                            break;
-                        case 1:
-                            xto=xfrom-1;
-                            yto=yfrom;
-                            break;
-                        case 2:
-                            xto=xfrom;
-                            yto=yfrom+1;
-                            break;
-                        case 3:
-                            xto=xfrom+1;
-                            yto=yfrom;
-                            break;
-                    }
+                    asspos tempAssPos=assPos[rand()%assPos.size()];
+                    xfrom=tempAssPos.xfrom;
+                    xto=tempAssPos.xto;
+                    yfrom=tempAssPos.yfrom;
+                    yto=tempAssPos.yto;
                 }
           }
     }
