@@ -11,9 +11,9 @@ void chessboard::initialize(){
     this->chessRemained[1]=16;
     this->deadchesscount=0;
     bool tempoccupied[32]={0};
+    unsigned seed=time(0);
+    srand(seed);
     for(int side=0;side<2;side++){
-        unsigned seed=time(0);
-        srand(seed);
         int i=rand()%32;
         while(tempoccupied[i]){
             i=(i+1)%32;
@@ -338,7 +338,6 @@ void chessboard::cal(bool agentSide){
                 break;
             }
         }
-        //test
         if(flag1==0&&countRun){
             vector<assChess> runChess;
             runChess.clear();
@@ -432,97 +431,226 @@ void chessboard::cal(bool agentSide){
                     }
             }
         }
-                // to today
     }
     if(flag1==0){
         int darksum=this->chessRemained[0]+this->chessRemained[1]-this->chessVisible[0]-this->chessVisible[1];
         unsigned seed=time(0);
         srand(seed);
-        int flag2=rand()%4;   //flag decide whether turn a chess or just randomly move
+        int flag2=rand()%4;   //flag2 decide whether turn a chess or just randomly move
         if((darksum==0||flag2==0)&&this->chessVisible[agentSide]){
             int count2=this->chessVisible[agentSide];
-            vector<int> canMoveChessPos;
-            canMoveChessPos.clear();
+            //new try
+            int count3=count2;
+            vector<asspos> assPos;
+            assPos.clear();
             for(int i=0;i<4;i++){
                 for(int j=0;j<8;j++){
                     if(this->chessdeck[i][j].getid()&&this->chessdeck[i][j].getvisible()&&this->chessdeck[i][j].getside()==agentSide){
-                        count2--;
+                        count3--;
                         if(this->chessdeck[i][j].getid()==6){
                             continue;
                         }
-                        int flag3=0;
-                        for(int i2=0;i2<4;i2++){
-                            for(int j2=0;j2<8;j2++){
-                                if(this->chessdeck[i2][j2].getid()==0&&this->canmove(j,i,j2,i2)){
-                                    int temp=i*8+j;
-                                    canMoveChessPos.push_back(temp);
-                                    flag3=1;
+                        bool tempflag1=0,tempflag2=0,tempflag3=0,tempflag4=0;
+                        if(i>0){
+                            if(this->chessdeck[i-1][j].getid()==0){
+                                for(int i2=0;i2<4;i2++){
+                                    for(int j2=0;j2<8;j2++){
+                                        if((i2!=i&&j2!=j)&&this->cankill(j2,i2,j,i,j,i-1)){
+                                            tempflag1=1;
+                                        }
+                                        if(tempflag1){
+                                            break;
+                                        }
+                                    }
+                                    if(tempflag1){
+                                        break;
+                                    }
+                                }
+                                if(!tempflag1){
+                                    asspos tempAssPos;
+                                    tempAssPos.xfrom=j;
+                                    tempAssPos.yfrom=i;
+                                    tempAssPos.xto=j;
+                                    tempAssPos.yto=i-1;
+                                    assPos.push_back(tempAssPos);
+                                }
+                            }
+                        }
+                        if(j>0){
+                            if(this->chessdeck[i][j-1].getid()==0){
+                                for(int i2=0;i2<4;i2++){
+                                    for(int j2=0;j2<8;j2++){
+                                        if((i2!=i&&j2!=j)&&this->cankill(j2,i2,j,i,j-1,i)){
+                                            tempflag2=1;
+                                        }
+                                        if(tempflag2){
+                                            break;
+                                        }
+                                    }
+                                    if(tempflag2){
+                                        break;
+                                    }
+                                }
+                                if(!tempflag2){
+                                    asspos tempAssPos;
+                                    tempAssPos.xfrom=j;
+                                    tempAssPos.yfrom=i;
+                                    tempAssPos.xto=j-1;
+                                    tempAssPos.yto=i;
+                                    assPos.push_back(tempAssPos);
+                                }
+                            }
+                        }
+                        if(i<3){
+                            if(this->chessdeck[i+1][j].getid()==0){
+                                for(int i2=0;i2<4;i2++){
+                                    for(int j2=0;j2<8;j2++){
+                                        if((i2!=i&&j2!=j)&&this->cankill(j2,i2,j,i,j,i+1)){
+                                            tempflag3=1;
+                                        }
+                                        if(tempflag3){
+                                            break;
+                                        }
+                                    }
+                                    if(tempflag3){
+                                        break;
+                                    }
+                                }
+                                if(!tempflag3){
+                                    asspos tempAssPos;
+                                    tempAssPos.xfrom=j;
+                                    tempAssPos.yfrom=i;
+                                    tempAssPos.xto=j;
+                                    tempAssPos.yto=i+1;
+                                    assPos.push_back(tempAssPos);
+                                }
+                            }
+                        }
+                        if(j<7){
+                            if(this->chessdeck[i][j+1].getid()==0){
+                                for(int i2=0;i2<4;i2++){
+                                    for(int j2=0;j2<8;j2++){
+                                        if((i2!=i&&j2!=j)&&this->cankill(j2,i2,j,i,j+1,i)){
+                                            tempflag4=1;
+                                        }
+                                        if(tempflag4){
+                                            break;
+                                        }
+                                    }
+                                    if(tempflag4){
+                                        break;
+                                    }
+                                }
+                                if(!tempflag4){
+                                    asspos tempAssPos;
+                                    tempAssPos.xfrom=j;
+                                    tempAssPos.yfrom=i;
+                                    tempAssPos.xto=j+1;
+                                    tempAssPos.yto=i;
+                                    assPos.push_back(tempAssPos);
+                                }
+                            }
+                        }
+                    }
+                    if(count3==0){
+                        break;
+                    }
+                }
+                if(count3==0){
+                    break;
+                }
+            }
+            if(assPos.size()){
+                flag4=1;
+                asspos tempAssPos=assPos[rand()%assPos.size()];
+                xfrom=tempAssPos.xfrom;
+                xto=tempAssPos.xto;
+                yfrom=tempAssPos.yfrom;
+                yto=tempAssPos.yto;
+            }
+            if(!flag4){
+            //end try
+                vector<int> canMoveChessPos;
+                canMoveChessPos.clear();
+                for(int i=0;i<4;i++){
+                    for(int j=0;j<8;j++){
+                        if(this->chessdeck[i][j].getid()&&this->chessdeck[i][j].getvisible()&&this->chessdeck[i][j].getside()==agentSide){
+                            count2--;
+                            if(this->chessdeck[i][j].getid()==6){
+                                continue;
+                            }
+                            int flag3=0;
+                            for(int i2=0;i2<4;i2++){
+                                for(int j2=0;j2<8;j2++){
+                                    if(this->chessdeck[i2][j2].getid()==0&&this->canmove(j,i,j2,i2)){
+                                        int temp=i*8+j;
+                                        canMoveChessPos.push_back(temp);
+                                        flag3=1;
+                                    }
+                                    if(flag3){
+                                        break;
+                                    }
                                 }
                                 if(flag3){
                                     break;
                                 }
                             }
-                            if(flag3){
-                                break;
-                            }
                         }
                     }
                 }
-            }
-            if(canMoveChessPos.size()){
-                flag4=1;
-            }
-            if(flag4){
-                seed=time(0);
-                srand(seed);
-                int randcount=rand()%canMoveChessPos.size();
-                int pos=canMoveChessPos[randcount];
-                xfrom=pos%8;
-                yfrom=pos/8;
-                vector<int> canfoward;
-                canfoward.clear();
-                if(yfrom>0){
-                    if(this->chessdeck[yfrom-1][xfrom].getid()==0){
-                        canfoward.push_back(0);
+                if(canMoveChessPos.size()){
+                    flag4=1;
+                }
+                if(flag4){
+                    int randcount=rand()%canMoveChessPos.size();
+                    int pos=canMoveChessPos[randcount];
+                    xfrom=pos%8;
+                    yfrom=pos/8;
+                    vector<int> canfoward;
+                    canfoward.clear();
+                    if(yfrom>0){
+                        if(this->chessdeck[yfrom-1][xfrom].getid()==0){
+                            canfoward.push_back(0);
+                        }
+                    }
+                    if(xfrom>0){
+                        if(this->chessdeck[yfrom][xfrom-1].getid()==0){
+                            canfoward.push_back(1);
+                        }
+                    }
+                    if(yfrom<3){
+                        if(this->chessdeck[yfrom+1][xfrom].getid()==0){
+                            canfoward.push_back(2);
+                        }
+                    }
+                    if(xfrom<7){
+                        if(this->chessdeck[yfrom][xfrom+1].getid()==0){
+                            canfoward.push_back(3);
+                        }
+                    }
+                    randcount=rand()%canfoward.size();
+                    randcount=canfoward[randcount];
+                    switch (randcount) {
+                        case 0:
+                            xto=xfrom;
+                            yto=yfrom-1;
+                            break;
+                        case 1:
+                            xto=xfrom-1;
+                            yto=yfrom;
+                            break;
+                        case 2:
+                            xto=xfrom;
+                            yto=yfrom+1;
+                            break;
+                        case 3:
+                            xto=xfrom+1;
+                            yto=yfrom;
+                            break;
                     }
                 }
-                if(xfrom>0){
-                    if(this->chessdeck[yfrom][xfrom-1].getid()==0){
-                        canfoward.push_back(1);
-                    }
-                }
-                if(yfrom<3){
-                    if(this->chessdeck[yfrom+1][xfrom].getid()==0){
-                        canfoward.push_back(2);
-                    }
-                }
-                if(xfrom<7){
-                    if(this->chessdeck[yfrom][xfrom+1].getid()==0){
-                        canfoward.push_back(3);
-                    }
-                }
-                randcount=rand()%canfoward.size();
-                randcount=canfoward[randcount];
-                switch (randcount) {
-                    case 0:
-                        xto=xfrom;
-                        yto=yfrom-1;
-                        break;
-                    case 1:
-                        xto=xfrom-1;
-                        yto=yfrom;
-                        break;
-                    case 2:
-                        xto=xfrom;
-                        yto=yfrom+1;
-                        break;
-                    case 3:
-                        xto=xfrom+1;
-                        yto=yfrom;
-                        break;
-                }
-            }
-        }
+          }
+    }
         if(darksum!=0&&(flag4==0||flag2||this->chessVisible[agentSide]==0)){
             int darkcount=rand()%darksum;
             bool flag5=0;
@@ -565,8 +693,8 @@ void chessboard::clientAgentCal(bool agentSide){
     bool flag1=0;     //whether can eat chess
     bool flag4=0;     //whether move randomly
     int count=this->chessVisible[agentSide];
+    int countRun=count;
     if(count){
-        int countRun=count;
         for(int i=0;i<4;i++){
             for(int j=0;j<8;j++){
                 if(this->chessdeck[i][j].getid()&&this->chessdeck[i][j].getvisible()&&this->chessdeck[i][j].getside()==agentSide){
@@ -594,7 +722,6 @@ void chessboard::clientAgentCal(bool agentSide){
                 break;
             }
         }
-        //test
         if(flag1==0&&countRun){
             vector<assChess> runChess;
             runChess.clear();
@@ -683,10 +810,9 @@ void chessboard::clientAgentCal(bool agentSide){
                                 break;
                         }
                 }
-                if(flag1){
-                    break;
-                }
-                // to today
+                    if(flag1){
+                        break;
+                    }
             }
         }
     }
@@ -694,91 +820,221 @@ void chessboard::clientAgentCal(bool agentSide){
         int darksum=this->chessRemained[0]+this->chessRemained[1]-this->chessVisible[0]-this->chessVisible[1];
         unsigned seed=time(0);
         srand(seed);
-        int flag2=rand()%4;   //flag decide whether turn a chess or just randomly move
+        int flag2=rand()%4;   //flag2 decide whether turn a chess or just randomly move
         if((darksum==0||flag2==0)&&this->chessVisible[agentSide]){
             int count2=this->chessVisible[agentSide];
-            vector<int> canMoveChessPos;
-            canMoveChessPos.clear();
+            //new try
+            int count3=count2;
+            vector<asspos> assPos;
+            assPos.clear();
             for(int i=0;i<4;i++){
                 for(int j=0;j<8;j++){
                     if(this->chessdeck[i][j].getid()&&this->chessdeck[i][j].getvisible()&&this->chessdeck[i][j].getside()==agentSide){
-                        count2--;
+                        count3--;
                         if(this->chessdeck[i][j].getid()==6){
                             continue;
                         }
-                        int flag3=0;
-                        for(int i2=0;i2<4;i2++){
-                            for(int j2=0;j2<8;j2++){
-                                if(this->chessdeck[i2][j2].getid()==0&&this->canmove(j,i,j2,i2)){
-                                    int temp=i*8+j;
-                                    canMoveChessPos.push_back(temp);
-                                    flag3=1;
+                        bool tempflag1=0,tempflag2=0,tempflag3=0,tempflag4=0;
+                        if(i>0){
+                            if(this->chessdeck[i-1][j].getid()==0){
+                                for(int i2=0;i2<4;i2++){
+                                    for(int j2=0;j2<8;j2++){
+                                        if((i2!=i&&j2!=j)&&this->cankill(j2,i2,j,i,j,i-1)){
+                                            tempflag1=1;
+                                        }
+                                        if(tempflag1){
+                                            break;
+                                        }
+                                    }
+                                    if(tempflag1){
+                                        break;
+                                    }
+                                }
+                                if(!tempflag1){
+                                    asspos tempAssPos;
+                                    tempAssPos.xfrom=j;
+                                    tempAssPos.yfrom=i;
+                                    tempAssPos.xto=j;
+                                    tempAssPos.yto=i-1;
+                                    assPos.push_back(tempAssPos);
+                                }
+                            }
+                        }
+                        if(j>0){
+                            if(this->chessdeck[i][j-1].getid()==0){
+                                for(int i2=0;i2<4;i2++){
+                                    for(int j2=0;j2<8;j2++){
+                                        if((i2!=i&&j2!=j)&&this->cankill(j2,i2,j,i,j-1,i)){
+                                            tempflag2=1;
+                                        }
+                                        if(tempflag2){
+                                            break;
+                                        }
+                                    }
+                                    if(tempflag2){
+                                        break;
+                                    }
+                                }
+                                if(!tempflag2){
+                                    asspos tempAssPos;
+                                    tempAssPos.xfrom=j;
+                                    tempAssPos.yfrom=i;
+                                    tempAssPos.xto=j-1;
+                                    tempAssPos.yto=i;
+                                    assPos.push_back(tempAssPos);
+                                }
+                            }
+                        }
+                        if(i<3){
+                            if(this->chessdeck[i+1][j].getid()==0){
+                                for(int i2=0;i2<4;i2++){
+                                    for(int j2=0;j2<8;j2++){
+                                        if((i2!=i&&j2!=j)&&this->cankill(j2,i2,j,i,j,i+1)){
+                                            tempflag3=1;
+                                        }
+                                        if(tempflag3){
+                                            break;
+                                        }
+                                    }
+                                    if(tempflag3){
+                                        break;
+                                    }
+                                }
+                                if(!tempflag3){
+                                    asspos tempAssPos;
+                                    tempAssPos.xfrom=j;
+                                    tempAssPos.yfrom=i;
+                                    tempAssPos.xto=j;
+                                    tempAssPos.yto=i+1;
+                                    assPos.push_back(tempAssPos);
+                                }
+                            }
+                        }
+                        if(j<7){
+                            if(this->chessdeck[i][j+1].getid()==0){
+                                for(int i2=0;i2<4;i2++){
+                                    for(int j2=0;j2<8;j2++){
+                                        if((i2!=i&&j2!=j)&&this->cankill(j2,i2,j,i,j+1,i)){
+                                            tempflag4=1;
+                                        }
+                                        if(tempflag4){
+                                            break;
+                                        }
+                                    }
+                                    if(tempflag4){
+                                        break;
+                                    }
+                                }
+                                if(!tempflag4){
+                                    asspos tempAssPos;
+                                    tempAssPos.xfrom=j;
+                                    tempAssPos.yfrom=i;
+                                    tempAssPos.xto=j+1;
+                                    tempAssPos.yto=i;
+                                    assPos.push_back(tempAssPos);
+                                }
+                            }
+                        }
+                    }
+                    if(count3==0){
+                        break;
+                    }
+                }
+                if(count3==0){
+                    break;
+                }
+            }
+            if(assPos.size()){
+                flag4=1;
+                asspos tempAssPos=assPos[rand()%assPos.size()];
+                xfrom=tempAssPos.xfrom;
+                xto=tempAssPos.xto;
+                yfrom=tempAssPos.yfrom;
+                yto=tempAssPos.yto;
+            }
+            if(!flag4){
+            //end try
+                vector<int> canMoveChessPos;
+                canMoveChessPos.clear();
+                for(int i=0;i<4;i++){
+                    for(int j=0;j<8;j++){
+                        if(this->chessdeck[i][j].getid()&&this->chessdeck[i][j].getvisible()&&this->chessdeck[i][j].getside()==agentSide){
+                            count2--;
+                            if(this->chessdeck[i][j].getid()==6){
+                                continue;
+                            }
+                            int flag3=0;
+                            for(int i2=0;i2<4;i2++){
+                                for(int j2=0;j2<8;j2++){
+                                    if(this->chessdeck[i2][j2].getid()==0&&this->canmove(j,i,j2,i2)){
+                                        int temp=i*8+j;
+                                        canMoveChessPos.push_back(temp);
+                                        flag3=1;
+                                    }
+                                    if(flag3){
+                                        break;
+                                    }
                                 }
                                 if(flag3){
                                     break;
                                 }
                             }
-                            if(flag3){
-                                break;
-                            }
                         }
                     }
                 }
-            }
-            if(canMoveChessPos.size()){
-                flag4=1;
-            }
-            if(flag4){
-                seed=time(0);
-                srand(seed);
-                int randcount=rand()%canMoveChessPos.size();
-                int pos=canMoveChessPos[randcount];
-                xfrom=pos%8;
-                yfrom=pos/8;
-                vector<int> canfoward;
-                canfoward.clear();
-                if(yfrom>0){
-                    if(this->chessdeck[yfrom-1][xfrom].getid()==0){
-                        canfoward.push_back(0);
+                if(canMoveChessPos.size()){
+                    flag4=1;
+                }
+                if(flag4){
+                    int randcount=rand()%canMoveChessPos.size();
+                    int pos=canMoveChessPos[randcount];
+                    xfrom=pos%8;
+                    yfrom=pos/8;
+                    vector<int> canfoward;
+                    canfoward.clear();
+                    if(yfrom>0){
+                        if(this->chessdeck[yfrom-1][xfrom].getid()==0){
+                            canfoward.push_back(0);
+                        }
+                    }
+                    if(xfrom>0){
+                        if(this->chessdeck[yfrom][xfrom-1].getid()==0){
+                            canfoward.push_back(1);
+                        }
+                    }
+                    if(yfrom<3){
+                        if(this->chessdeck[yfrom+1][xfrom].getid()==0){
+                            canfoward.push_back(2);
+                        }
+                    }
+                    if(xfrom<7){
+                        if(this->chessdeck[yfrom][xfrom+1].getid()==0){
+                            canfoward.push_back(3);
+                        }
+                    }
+                    randcount=rand()%canfoward.size();
+                    randcount=canfoward[randcount];
+                    switch (randcount) {
+                        case 0:
+                            xto=xfrom;
+                            yto=yfrom-1;
+                            break;
+                        case 1:
+                            xto=xfrom-1;
+                            yto=yfrom;
+                            break;
+                        case 2:
+                            xto=xfrom;
+                            yto=yfrom+1;
+                            break;
+                        case 3:
+                            xto=xfrom+1;
+                            yto=yfrom;
+                            break;
                     }
                 }
-                if(xfrom>0){
-                    if(this->chessdeck[yfrom][xfrom-1].getid()==0){
-                        canfoward.push_back(1);
-                    }
-                }
-                if(yfrom<3){
-                    if(this->chessdeck[yfrom+1][xfrom].getid()==0){
-                        canfoward.push_back(2);
-                    }
-                }
-                if(xfrom<7){
-                    if(this->chessdeck[yfrom][xfrom+1].getid()==0){
-                        canfoward.push_back(3);
-                    }
-                }
-                randcount=rand()%canfoward.size();
-                randcount=canfoward[randcount];
-                switch (randcount) {
-                    case 0:
-                        xto=xfrom;
-                        yto=yfrom-1;
-                        break;
-                    case 1:
-                        xto=xfrom-1;
-                        yto=yfrom;
-                        break;
-                    case 2:
-                        xto=xfrom;
-                        yto=yfrom+1;
-                        break;
-                    case 3:
-                        xto=xfrom+1;
-                        yto=yfrom;
-                        break;
-                }
-            }
-        }
+          }
+    }
         if(darksum!=0&&(flag4==0||flag2||this->chessVisible[agentSide]==0)){
             int darkcount=rand()%darksum;
             bool flag5=0;
