@@ -9,6 +9,7 @@ netclient::netclient(){
     connect(socket, SIGNAL(readyRead()), this, SLOT(DataArrive()));
 }
 netclient::~netclient(){
+    this->socket->close();
     delete this->socket;
 }
 void netclient::DataArrive(){
@@ -41,9 +42,6 @@ void netclient::DataArrive(){
         int ifend=this->print();
         this->repaint();
         this->repaint();
-        if(ifend!=3){
-            this->socket->close();
-        }
     }
 }
 void netclient::getclicked(int x,int y){

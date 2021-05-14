@@ -2,13 +2,14 @@
 #define CHESSBOARD_H
 
 #include"chessman.h"
+#include"assForAgent.h"
 
 class chessboard{
     private:
         int chessRemained[2];
         int chessVisible[2];
-        int x1;
-        int y1;
+        int x1;                     //record the chess ready to do
+        int y1;                     //record the chess ready to do
         bool duringfunc;
         bool playernow;
         chessman chessdeck[4][8];

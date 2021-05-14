@@ -15,6 +15,8 @@ netserver::netserver(){
 }
 
 netserver::~netserver(){
+    this->socket->close();
+    this->server->close();
     delete this->socket;
     delete this->server;
 }
@@ -37,10 +39,6 @@ void netserver::DataArrive(){
         int ifend=this->print();
         this->repaint();
         this->sendinfo();
-        if(ifend!=3){
-            this->socket->close();
-            this->server->close();
-        }
     }
 
 }

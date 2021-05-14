@@ -53,8 +53,5 @@ void clientagent::DataArrive(){
             this->chessb.clientAgentCal(this->clientSide);
             this->sendinfo();
         }
-        if(ifend!=3){
-            this->socket->close();
-        }
     }
 }

@@ -42,10 +42,6 @@ void serveragent::DataArrive(){
             this->repaint();
             this->socket->flush();
             this->sendinfo();
-            if(ifend!=3){
-                this->socket->close();
-                this->server->close();
-            }
         }
     }
 }
