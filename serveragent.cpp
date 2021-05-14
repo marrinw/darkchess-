@@ -38,7 +38,7 @@ void serveragent::DataArrive(){
         if(this->chessb.getplayernow()==this->serverSide&&this->chessb.endgame()==3){
             this->chessb.cal(this->serverSide);
             std::this_thread::sleep_for(std::chrono::milliseconds(550));
-            int ifend=this->print();
+            this->print();
             this->repaint();
             this->socket->flush();
             this->sendinfo();

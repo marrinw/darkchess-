@@ -39,7 +39,7 @@ void netclient::DataArrive(){
             }
         }
         this->chessb.countchess();
-        int ifend=this->print();
+        this->print();
         this->repaint();
         this->repaint();
     }

@@ -39,6 +39,7 @@ class chessboard{
         void func(int x,int y);         //do the chess
         bool canmove(int x,int y,int x2,int y2);        //check if a chess can move to a position
         bool cankill(int x,int y,int x2,int y2);        //check if a chess can kill another
+        bool cankill(int x,int y,int xfrom,int yfrom,int xto,int yto);  //check if a chess can kil a chess after its movement
         bool getplayernow();                            // return the current player
         int endgame();      //0=red win, 1=black win, 2=even, 3=continue
         int getchessValue(int x,int y);                 //return the value of a chess(use for agent to decide what to do)

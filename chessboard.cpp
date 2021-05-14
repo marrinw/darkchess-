@@ -148,6 +148,46 @@ bool chessboard::cankill(int x, int y, int x2, int y2){
     }
 }
 
+bool chessboard::cankill(int x, int y, int xfrom, int yfrom, int xto, int yto){
+    if(!this->chessdeck[yfrom][xfrom].getvisible()||!this->chessdeck[y][x].getvisible())
+        return 0;
+    if(this->chessdeck[y][x].getside()==this->chessdeck[yfrom][xfrom].getside())
+        return 0;
+    if(!this->canmove(x,y,xto,yto))
+        return 0;
+    if(this->chessdeck[y][x].getid()!=6){
+        if(this->eatdeck[this->chessdeck[y][x].getid()][this->chessdeck[yfrom][xfrom].getid()]){
+            return 1;
+        }
+        return 0;
+    }else{
+        if(!this->eatdeck[this->chessdeck[y][x].getid()][this->chessdeck[yfrom][xfrom].getid()]){
+            return 0;
+        }
+        int count=0;
+        if(x==xto){
+            int min=y<yto?y:yto;
+            int max=y>yto?y:yto;
+            for(min++;min!=max;min++){
+                if(this->chessdeck[min][x].getid())
+                    count++;
+            }
+        }else if(y==yto){
+            int min=x<xto?x:xto;
+            int max=x>xto?x:xto;
+            for(min++;min!=max;min++){
+                if(this->chessdeck[y][min].getid())
+                    count++;
+            }
+        }
+        if(count==1){
+            return 1;
+        }
+        return 0;
+
+    }
+}
+
 bool chessboard::getplayernow(){
     return this->playernow;
 }
@@ -484,8 +524,6 @@ void chessboard::cal(bool agentSide){
             }
         }
         if(darksum!=0&&(flag4==0||flag2||this->chessVisible[agentSide]==0)){
-            seed=time(0);
-            srand(seed);
             int darkcount=rand()%darksum;
             bool flag5=0;
             for(int i=0;i<4;i++){
@@ -742,8 +780,6 @@ void chessboard::clientAgentCal(bool agentSide){
             }
         }
         if(darksum!=0&&(flag4==0||flag2||this->chessVisible[agentSide]==0)){
-            seed=time(0);
-            srand(seed);
             int darkcount=rand()%darksum;
             bool flag5=0;
             for(int i=0;i<4;i++){

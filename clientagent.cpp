@@ -47,7 +47,7 @@ void clientagent::DataArrive(){
             }
         }
         this->chessb.countchess();
-        int ifend=this->print();
+        this->print();
         this->repaint();
         if(this->chessb.getplayernow()==this->clientSide&&this->chessb.endgame()==3){
             this->chessb.clientAgentCal(this->clientSide);
