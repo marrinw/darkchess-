@@ -11,7 +11,7 @@ bool chessman::getvisible(){
     return this->visible;
 }
 void chessman::changeid(int id){
-    this->id=id;
+    this->id=ID(id);
 }
 void chessman::changeside(bool side){
     this->side=side;
@@ -21,6 +21,6 @@ void chessman::changevisible(bool visible){
 }
 void chessman::initialize(int id,bool side){
     this->side=side;
-    this->id=id;
+    this->id=ID(id);
     this->visible=0;
 }

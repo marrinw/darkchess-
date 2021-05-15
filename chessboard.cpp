@@ -348,7 +348,7 @@ int chessboard::getchessValue(int x, int y){
 
 void chessboard::cal(bool agentSide){
     int value=0,value1=0;
-    int valuegap=-2;
+    int valuegap=-3;
     int xfrom,yfrom,xto,yto;
     int x1from,y1from,x1to,y1to;
     bool flag1=0;     //whether can eat chess or run away
@@ -368,7 +368,7 @@ void chessboard::cal(bool agentSide){
                                 for(int i3=0;i3<4;i3++){
                                     for(int j3=0;j3<8;j3++){
                                         if(this->chessdeck[i3][j3].getid()&&this->cankill(j3,i3,j,i,j2,i2)){
-                                            if(valuegap<=this->getchessValue(j2,i2)-this->getchessValue(j,i)){
+                                            if(valuegap<this->getchessValue(j2,i2)-this->getchessValue(j,i)||(valuegap<=this->getchessValue(j2,i2)-this->getchessValue(j,i))&&value1<this->getchessValue(j2,i2)){
                                                 valuegap=this->getchessValue(j2,i2)-this->getchessValue(j,i);
                                                 value1=this->getchessValue(j2,i2);
                                                 flag1=1;
