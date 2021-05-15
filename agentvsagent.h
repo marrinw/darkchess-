@@ -9,12 +9,14 @@ class agentvsagent:public agent{
     public slots:
         virtual void getclicked(int x,int y);
         void startgame();
+        void singleround();
     public:
         agentvsagent();
     protected:
         bool sideA;
         bool sideB;
         QPushButton* startButton;
+        QPushButton* singleRoundButton;
 
 };
 

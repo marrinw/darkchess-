@@ -11,7 +11,11 @@ agentvsagent::agentvsagent(){
     this->startButton=new QPushButton("开始机机对战",this);
     this->startButton->move(20,400);
     this->startButton->resize(140,50);
+    this->singleRoundButton=new QPushButton("一回合",this);
+    this->singleRoundButton->move(190,400);
+    this->singleRoundButton->resize(140,50);
     connect(this->startButton,SIGNAL(clicked()),this,SLOT(startgame()));
+    connect(this->singleRoundButton,SIGNAL(clicked()),this,SLOT(singleround()));
 }
 
 void agentvsagent::startgame(){
@@ -25,6 +29,25 @@ void agentvsagent::startgame(){
             this->cal(this->sideB);
             this->print();
             this->repaint();
+            std::this_thread::sleep_for(std::chrono::milliseconds(550));
+        }
+    }
+}
+
+void agentvsagent::singleround(){
+    int i=0;
+    while(this->chessb.endgame()==3&&i<2){
+        if(this->chessb.getplayernow()==0){
+            this->cal(this->sideA);
+            this->print();
+            this->repaint();
+            i++;
+            std::this_thread::sleep_for(std::chrono::milliseconds(550));
+        }else if(this->chessb.getplayernow()==1){
+            this->cal(this->sideB);
+            this->print();
+            this->repaint();
+            i++;
             std::this_thread::sleep_for(std::chrono::milliseconds(550));
         }
     }
