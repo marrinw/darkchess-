@@ -109,6 +109,8 @@ bool chessboard::canmove(int x, int y, int x2, int y2){
     }
 }
 bool chessboard::cankill(int x, int y, int x2, int y2){
+    if(!this->chessdeck[y2][x2].getid()||!this->chessdeck[y][x].getid())
+        return 0;
     if(!this->chessdeck[y2][x2].getvisible()||!this->chessdeck[y][x].getvisible())
         return 0;
     if(this->chessdeck[y][x].getside()==this->chessdeck[y2][x2].getside())
@@ -149,6 +151,8 @@ bool chessboard::cankill(int x, int y, int x2, int y2){
 }
 
 bool chessboard::cankill(int x, int y, int xfrom, int yfrom, int xto, int yto){
+    if(!this->chessdeck[yfrom][xfrom].getid()||!this->chessdeck[y][x].getid())
+        return 0;
     if(!this->chessdeck[yfrom][xfrom].getvisible()||!this->chessdeck[y][x].getvisible())
         return 0;
     if(this->chessdeck[y][x].getside()==this->chessdeck[yfrom][xfrom].getside())
@@ -361,14 +365,20 @@ void chessboard::cal(bool agentSide){
                     for(int i2=0;i2<4;i2++){
                         for(int j2=0;j2<8;j2++){
                             if(this->chessdeck[i2][j2].getid()&&this->cankill(j,i,j2,i2)){
-                                if(valuegap<=this->getchessValue(j2,i2)-this->getchessValue(j,i)){
-                                    valuegap=this->getchessValue(j2,i2)-this->getchessValue(j,i);
-                                    value1=this->getchessValue(j2,i2);
-                                    flag1=1;
-                                    x1from=j;
-                                    y1from=i;
-                                    x1to=j2;
-                                    y1to=i2;
+                                for(int i3=0;i3<4;i3++){
+                                    for(int j3=0;j3<8;j3++){
+                                        if(this->chessdeck[i3][j3].getid()&&this->cankill(j3,i3,j,i,j2,i2)){
+                                            if(valuegap<=this->getchessValue(j2,i2)-this->getchessValue(j,i)){
+                                                valuegap=this->getchessValue(j2,i2)-this->getchessValue(j,i);
+                                                value1=this->getchessValue(j2,i2);
+                                                flag1=1;
+                                                x1from=j;
+                                                y1from=i;
+                                                x1to=j2;
+                                                y1to=i2;
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -841,14 +851,20 @@ void chessboard::clientAgentCal(bool agentSide){
                     for(int i2=0;i2<4;i2++){
                         for(int j2=0;j2<8;j2++){
                             if(this->chessdeck[i2][j2].getid()&&this->cankill(j,i,j2,i2)){
-                                if(valuegap<=this->getchessValue(j2,i2)-this->getchessValue(j,i)){
-                                    valuegap=this->getchessValue(j2,i2)-this->getchessValue(j,i);
-                                    value1=this->getchessValue(j2,i2);
-                                    flag1=1;
-                                    x1from=j;
-                                    y1from=i;
-                                    x1to=j2;
-                                    y1to=i2;
+                                for(int i3=0;i3<4;i3++){
+                                    for(int j3=0;j3<8;j3++){
+                                        if(this->chessdeck[i3][j3].getid()&&this->cankill(j3,i3,j,i,j2,i2)){
+                                            if(valuegap<=this->getchessValue(j2,i2)-this->getchessValue(j,i)){
+                                                valuegap=this->getchessValue(j2,i2)-this->getchessValue(j,i);
+                                                value1=this->getchessValue(j2,i2);
+                                                flag1=1;
+                                                x1from=j;
+                                                y1from=i;
+                                                x1to=j2;
+                                                y1to=i2;
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
