@@ -171,6 +171,14 @@ int pvp::print(){
                 }
             }
         }
+    QString showstring;
+    if(this->chessb.getplayernow()){
+        showstring="黑方执子";
+    }else{
+        showstring="红方执子";
+    }
+    this->showPlayerLabel->setText(showstring);
+    this->repaint();
     int ifend=this->chessb.endgame();
         switch (ifend) {
             case 0:
@@ -185,13 +193,7 @@ int pvp::print(){
             default:
                 break;
         }
-    QString showstring;
-    if(this->chessb.getplayernow()){
-        showstring="黑方执子";
-    }else{
-        showstring="红方执子";
-    }
-    this->showPlayerLabel->setText(showstring);
+
     return ifend;
 }
 
