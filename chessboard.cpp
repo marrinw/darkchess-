@@ -347,6 +347,9 @@ int chessboard::getchessValue(int x, int y){
 }
 
 void chessboard::cal(bool agentSide){
+    if(this->playernow!=agentSide){
+        return;
+    }
     int value=0,value1=0;
     int valuegap=-3;
     int xfrom,yfrom,xto,yto;
@@ -367,7 +370,7 @@ void chessboard::cal(bool agentSide){
                             if(this->chessdeck[i2][j2].getid()&&this->cankill(j,i,j2,i2)){
                                 for(int i3=0;i3<4;i3++){
                                     for(int j3=0;j3<8;j3++){
-                                        if(this->chessdeck[i3][j3].getid()&&this->cankill(j3,i3,j,i,j2,i2)){
+                                        if((i3!=i2&&j3!=j2)&&this->chessdeck[i3][j3].getid()&&this->cankill(j3,i3,j,i,j2,i2)){
                                             if(valuegap<this->getchessValue(j2,i2)-this->getchessValue(j,i)||(valuegap<=this->getchessValue(j2,i2)-this->getchessValue(j,i))&&value1<this->getchessValue(j2,i2)){
                                                 valuegap=this->getchessValue(j2,i2)-this->getchessValue(j,i);
                                                 value1=this->getchessValue(j2,i2);

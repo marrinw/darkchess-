@@ -10,6 +10,7 @@ class agentvsagent:public agent{
         virtual void getclicked(int x,int y);
         void startgame();
         void singleround();
+        void fiveround();
     public:
         agentvsagent();
     protected:
@@ -17,6 +18,7 @@ class agentvsagent:public agent{
         bool sideB;
         QPushButton* startButton;
         QPushButton* singleRoundButton;
+        QPushButton* fiveRoundGameButton;
 
 };
 
