@@ -285,6 +285,21 @@ int chessboard::endgame(){
     }
     if(this->chessRemained[0]-this->chessVisible[0]||this->chessRemained[1]-this->chessVisible[1])
         return 3;
+    for(int evenSide=0;evenSide<2;evenSide++){
+        if(this->chessRemained[evenSide]==2){
+            int WhetherEven=0;
+            for(int i=0;i<4;i++){
+                for(int j=0;j<8;j++){
+                    if(this->chessdeck[i][j].getid()==6&&this->chessdeck[i][j].getside()==evenSide){
+                       WhetherEven++;
+                    }
+                }
+            }
+            if(WhetherEven==2){
+                return 2;
+            }
+        }
+    }
     int whetherEndGame=0;
     for(int i=0;i<4;i++){
         for(int j=0;j<8;j++){
@@ -344,6 +359,28 @@ int chessboard::endgame(){
 int chessboard::getchessValue(int x, int y){
     int id=this->chessdeck[y][x].getid();
     return this->valuetable[id];
+}
+
+asspos chessboard::chasepath(int xfrom, int yfrom, int xto, int yto){
+    asspos tempAssPos;
+    tempAssPos.xfrom=xfrom;
+    tempAssPos.yfrom=yfrom;
+    tempAssPos.xto=-1;
+    tempAssPos.yto=-1;
+    if(xfrom<xto-1&&!this->chessdeck[yfrom][xfrom+1].getid()){
+        tempAssPos.xto=xfrom+1;
+        tempAssPos.yto=yfrom;
+    }else if(xfrom>xto+1&&!this->chessdeck[yfrom][xfrom-1].getid()){
+        tempAssPos.xto=xfrom-1;
+        tempAssPos.yto=yfrom;
+    }else if(yfrom<yto-1&&!this->chessdeck[yfrom+1][xfrom].getid()){
+        tempAssPos.xto=xfrom;
+        tempAssPos.yto=yfrom+1;
+    }else if(yfrom>yto+1&&!this->chessdeck[yfrom-1][xfrom].getid()){
+        tempAssPos.xto=xfrom;
+        tempAssPos.yto=yfrom-1;
+    }
+    return tempAssPos;
 }
 
 void chessboard::cal(bool agentSide){
@@ -592,6 +629,49 @@ void chessboard::cal(bool agentSide){
             }
         }
     }
+    //attack stagetic
+    if(flag1==0&&this->chessVisible[(1+agentSide)%2]&&this->chessVisible[agentSide]){
+        if(this->chessRemained[(1+agentSide)%2]<4&&this->chessVisible[(1+agentSide)%2]&&this->chessRemained[0]+this->chessRemained[1]-this->chessVisible[0]-this->chessVisible[1]<=2){
+            int enemycount=this->chessVisible[(1+agentSide)%2];
+            for(int i=0;i<4;i++){
+                for(int j=0;j<8;j++){
+                    if(this->chessdeck[i][j].getid()&&this->chessdeck[i][j].getside()!=agentSide){
+                        enemycount--;
+                        int mysideCount=this->chessRemained[agentSide];
+                        for(int ifrom=0;ifrom<4;ifrom++){
+                            for(int jfrom=0;jfrom<8;jfrom++){
+                                if(this->chessdeck[ifrom][jfrom].getid()&&this->chessdeck[ifrom][jfrom].getside()==agentSide&&this->chessdeck[ifrom][jfrom].getvisible()){
+                                    mysideCount--;
+                                    if(this->chessdeck[ifrom][jfrom].getid()!=6&&this->eatdeck[this->chessdeck[ifrom][jfrom].getid()][this->chessdeck[i][j].getid()]&&!this->eatdeck[this->chessdeck[i][j].getid()][this->chessdeck[ifrom][jfrom].getid()]){
+                                        asspos tempPos=this->chasepath(jfrom,ifrom,j,i);
+                                        if(tempPos.xto!=-1&&tempPos.yto!=-1){
+                                            xfrom=tempPos.xfrom;
+                                            xto=tempPos.xto;
+                                            yfrom=tempPos.yfrom;
+                                            yto=tempPos.yto;
+                                            flag1=1;
+                                        }
+                                    }
+                                }
+                                if(flag1||!mysideCount){
+                                    break;
+                                }
+                            }
+                            if(flag1||!mysideCount){
+                                break;
+                            }
+                        }
+                    }
+                    if(flag1||!enemycount){
+                        break;
+                    }
+                }
+                if(flag1||!enemycount){
+                    break;
+                }
+            }
+        }
+    }
     if(flag1==0){
         int darksum=this->chessRemained[0]+this->chessRemained[1]-this->chessVisible[0]-this->chessVisible[1];
         unsigned seed=time(0);
@@ -836,8 +916,11 @@ void chessboard::changeplayernow(bool side){
 }
 
 void chessboard::clientAgentCal(bool agentSide){
+    if(this->playernow!=agentSide){
+        return;
+    }
     int value=0,value1=0;
-    int valuegap=-2;
+    int valuegap=-3;
     int xfrom,yfrom,xto,yto;
     int x1from,y1from,x1to,y1to;
     bool flag1=0;     //whether can eat chess or run away
@@ -856,8 +939,8 @@ void chessboard::clientAgentCal(bool agentSide){
                             if(this->chessdeck[i2][j2].getid()&&this->cankill(j,i,j2,i2)){
                                 for(int i3=0;i3<4;i3++){
                                     for(int j3=0;j3<8;j3++){
-                                        if(this->chessdeck[i3][j3].getid()&&this->cankill(j3,i3,j,i,j2,i2)){
-                                            if(valuegap<=this->getchessValue(j2,i2)-this->getchessValue(j,i)){
+                                        if((i3!=i2&&j3!=j2)&&this->chessdeck[i3][j3].getid()&&this->cankill(j3,i3,j,i,j2,i2)){
+                                            if(valuegap<this->getchessValue(j2,i2)-this->getchessValue(j,i)||(valuegap<=this->getchessValue(j2,i2)-this->getchessValue(j,i))&&value1<this->getchessValue(j2,i2)){
                                                 valuegap=this->getchessValue(j2,i2)-this->getchessValue(j,i);
                                                 value1=this->getchessValue(j2,i2);
                                                 flag1=1;
@@ -1074,6 +1157,49 @@ void chessboard::clientAgentCal(bool agentSide){
                         if(flag1){
                             break;
                         }
+                }
+            }
+        }
+    }
+    //attack stagetic
+    if(flag1==0&&this->chessVisible[(1+agentSide)%2]&&this->chessVisible[agentSide]){
+        if(this->chessRemained[(1+agentSide)%2]<4&&this->chessVisible[(1+agentSide)%2]&&this->chessRemained[0]+this->chessRemained[1]-this->chessVisible[0]-this->chessVisible[1]<=2){
+            int enemycount=this->chessVisible[(1+agentSide)%2];
+            for(int i=0;i<4;i++){
+                for(int j=0;j<8;j++){
+                    if(this->chessdeck[i][j].getid()&&this->chessdeck[i][j].getside()!=agentSide){
+                        enemycount--;
+                        int mysideCount=this->chessRemained[agentSide];
+                        for(int ifrom=0;ifrom<4;ifrom++){
+                            for(int jfrom=0;jfrom<8;jfrom++){
+                                if(this->chessdeck[ifrom][jfrom].getid()&&this->chessdeck[ifrom][jfrom].getside()==agentSide&&this->chessdeck[ifrom][jfrom].getvisible()){
+                                    mysideCount--;
+                                    if(this->chessdeck[ifrom][jfrom].getid()!=6&&this->eatdeck[this->chessdeck[ifrom][jfrom].getid()][this->chessdeck[i][j].getid()]&&!this->eatdeck[this->chessdeck[i][j].getid()][this->chessdeck[ifrom][jfrom].getid()]){
+                                        asspos tempPos=this->chasepath(jfrom,ifrom,j,i);
+                                        if(tempPos.xto!=-1&&tempPos.yto!=-1){
+                                            xfrom=tempPos.xfrom;
+                                            xto=tempPos.xto;
+                                            yfrom=tempPos.yfrom;
+                                            yto=tempPos.yto;
+                                            flag1=1;
+                                        }
+                                    }
+                                }
+                                if(flag1||!mysideCount){
+                                    break;
+                                }
+                            }
+                            if(flag1||!mysideCount){
+                                break;
+                            }
+                        }
+                    }
+                    if(flag1||!enemycount){
+                        break;
+                    }
+                }
+                if(flag1||!enemycount){
+                    break;
                 }
             }
         }
