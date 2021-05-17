@@ -1,6 +1,7 @@
 #include"clientagent.h"
 
 clientagent::clientagent(){
+    srand(time(0));
     this->setWindowTitle("客户端机");
 }
 

@@ -285,7 +285,7 @@ int chessboard::endgame(){
     }
     if(this->chessRemained[0]-this->chessVisible[0]||this->chessRemained[1]-this->chessVisible[1])
         return 3;
-    for(int evenSide=0;evenSide<2;evenSide++){
+    for(int evenSide=0;evenSide<2;evenSide++){          //with one side two pao
         if(this->chessRemained[evenSide]==2){
             int WhetherEven=0;
             for(int i=0;i<4;i++){
@@ -301,7 +301,7 @@ int chessboard::endgame(){
         }
     }
     int whetherEndGame=0;
-    for(int i=0;i<4;i++){
+    for(int i=0;i<4;i++){       //one side with on chess to move
         for(int j=0;j<8;j++){
             if(this->chessdeck[i][j].getid()){
                 for(int i2=0;i2<4;i2++){
@@ -332,7 +332,7 @@ int chessboard::endgame(){
     if(whetherEndGame==0){
         return 2;
     }
-    for(int aside=0;aside<2;aside++){
+    for(int aside=0;aside<2;aside++){       //a can eat b and b cannot eat a
         for(int i=0;i<4;i++){
             for(int j=0;j<8;j++){
                 if(this->chessdeck[i][j].getid()&&this->chessdeck[i][j].getside()==aside){
@@ -352,6 +352,37 @@ int chessboard::endgame(){
                 }
             }
         }
+    }
+    int ifGameEven=0;
+    for(int i=0;i<4;i++){
+        for(int j=0;j<8;j++){
+            if(this->chessdeck[i][j].getid()){
+                for(int i2=0;i2<4;i2++){
+                    for(int j2=0;j2<8;j2++){
+                        if(this->chessdeck[i2][j2].getid()&&this->chessdeck[i2][j2].getside()!=this->chessdeck[i][j].getside()){
+                            if(this->eatdeck[this->chessdeck[i2][j2].getid()][this->chessdeck[i][j].getid()]||this->eatdeck[this->chessdeck[i][j].getid()][this->chessdeck[i2][j2].getid()]){
+                                ifGameEven=1;
+                            }
+                        }
+                        if(ifGameEven){
+                            break;
+                        }
+                    }
+                    if(ifGameEven){
+                        break;
+                    }
+                }
+            }
+            if(ifGameEven){
+                break;
+            }
+        }
+        if(ifGameEven){
+            break;
+        }
+    }
+    if(!ifGameEven){
+        return 2;
     }
     return 3;
 }
@@ -630,7 +661,7 @@ void chessboard::cal(bool agentSide){
         }
     }
     //attack stagetic
-    if(flag1==0&&this->chessVisible[(1+agentSide)%2]&&this->chessVisible[agentSide]){
+    if(flag1==0&&this->chessVisible[(1+agentSide)%2]&&this->chessVisible[agentSide]&&this->chessRemained[(agentSide+1)%2]-this->chessVisible[(1+agentSide)%2]==0){
         if(this->chessRemained[(1+agentSide)%2]<4&&this->chessVisible[(1+agentSide)%2]&&this->chessRemained[0]+this->chessRemained[1]-this->chessVisible[0]-this->chessVisible[1]<=2){
             int enemycount=this->chessVisible[(1+agentSide)%2];
             for(int i=0;i<4;i++){
@@ -674,8 +705,8 @@ void chessboard::cal(bool agentSide){
     }
     if(flag1==0){
         int darksum=this->chessRemained[0]+this->chessRemained[1]-this->chessVisible[0]-this->chessVisible[1];
-        unsigned seed=time(0);
-        srand(seed);
+        //unsigned seed=time(0);
+        //srand(seed);
         int flag2=rand()%4;   //flag2 decide whether turn a chess or just randomly move
         if((darksum==0||flag2==0)&&this->chessVisible[agentSide]){
             int count2=this->chessVisible[agentSide];
@@ -1162,7 +1193,7 @@ void chessboard::clientAgentCal(bool agentSide){
         }
     }
     //attack stagetic
-    if(flag1==0&&this->chessVisible[(1+agentSide)%2]&&this->chessVisible[agentSide]){
+    if(flag1==0&&this->chessVisible[(1+agentSide)%2]&&this->chessVisible[agentSide]&&this->chessRemained[(agentSide+1)%2]-this->chessVisible[(1+agentSide)%2]==0){
         if(this->chessRemained[(1+agentSide)%2]<4&&this->chessVisible[(1+agentSide)%2]&&this->chessRemained[0]+this->chessRemained[1]-this->chessVisible[0]-this->chessVisible[1]<=2){
             int enemycount=this->chessVisible[(1+agentSide)%2];
             for(int i=0;i<4;i++){
@@ -1206,8 +1237,8 @@ void chessboard::clientAgentCal(bool agentSide){
     }
     if(flag1==0){
         int darksum=this->chessRemained[0]+this->chessRemained[1]-this->chessVisible[0]-this->chessVisible[1];
-        unsigned seed=time(0);
-        srand(seed);
+        //unsigned seed=time(0);
+        //srand(seed);
         int flag2=rand()%4;   //flag2 decide whether turn a chess or just randomly move
         if((darksum==0||flag2==0)&&this->chessVisible[agentSide]){
             int count2=this->chessVisible[agentSide];
