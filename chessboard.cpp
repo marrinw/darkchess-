@@ -668,7 +668,7 @@ void chessboard::cal(bool agentSide){
                 for(int j=0;j<8;j++){
                     if(this->chessdeck[i][j].getid()&&this->chessdeck[i][j].getside()!=agentSide){
                         enemycount--;
-                        int mysideCount=this->chessRemained[agentSide];
+                        int mysideCount=this->chessVisible[agentSide];
                         for(int ifrom=0;ifrom<4;ifrom++){
                             for(int jfrom=0;jfrom<8;jfrom++){
                                 if(this->chessdeck[ifrom][jfrom].getid()&&this->chessdeck[ifrom][jfrom].getside()==agentSide&&this->chessdeck[ifrom][jfrom].getvisible()){
@@ -1200,7 +1200,7 @@ void chessboard::clientAgentCal(bool agentSide){
                 for(int j=0;j<8;j++){
                     if(this->chessdeck[i][j].getid()&&this->chessdeck[i][j].getside()!=agentSide){
                         enemycount--;
-                        int mysideCount=this->chessRemained[agentSide];
+                        int mysideCount=this->chessVisible[agentSide];
                         for(int ifrom=0;ifrom<4;ifrom++){
                             for(int jfrom=0;jfrom<8;jfrom++){
                                 if(this->chessdeck[ifrom][jfrom].getid()&&this->chessdeck[ifrom][jfrom].getside()==agentSide&&this->chessdeck[ifrom][jfrom].getvisible()){
