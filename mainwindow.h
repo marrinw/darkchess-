@@ -32,6 +32,7 @@ class MainWindow : public QMainWindow
         QPushButton* pushButton5;
         QPushButton* pushButton6;
         QPushButton* pushButton7;
+        QPushButton* showHelpButton;
         pvp* game1;
         agent* game2;
         agentvsagent* game3;
@@ -47,5 +48,6 @@ class MainWindow : public QMainWindow
         void creategame5();
         void creategame6();
         void creategame7();
+        void showHelpMessage();
 };
 #endif // MAINWINDOW_H

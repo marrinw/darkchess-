@@ -24,8 +24,15 @@ void clientagent::sendinfo(){
 }
 void clientagent::DataArrive(){
     QByteArray buffer = socket->readAll();
-    if(buffer.size()==193){
+    if(buffer.size()==194){
         int i=0;
+        this->clientSide=buffer[0]-'0';
+        i++;
+        if(this->clientSide){
+            this->showSide->setText("你是黑子");
+        }else if(!this->clientSide){
+            this->showSide->setText("你是红子");
+        }
         for(int j=0;j<4;j++){
             for(int k=0;k<8;k++){
                 this->chessb.changechessdeck(k,j).changeid(buffer[i]-'0');

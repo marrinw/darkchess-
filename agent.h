@@ -3,15 +3,15 @@
 
 #include"pvp.h"
 #include<chrono>
+#include<qlabel>
 #include<thread>
 
 class agent:public pvp{
     Q_OBJECT
     protected:
         bool side;
-        //int calvalue(int x,int y);
+        QLabel* showside;
     public:
-        void cal(bool agentSide);
         agent();
 
     public slots:

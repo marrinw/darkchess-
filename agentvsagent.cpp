@@ -26,13 +26,13 @@ void agentvsagent::startgame(){
     int i=0;
     while(this->chessb.endgame()==3){
         if(this->chessb.getplayernow()==0){
-            this->cal(this->sideA);
+            this->chessb.cal(this->sideA);
             i++;
             this->print();
             this->repaint();
             //std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }else if(this->chessb.getplayernow()==1){
-            this->cal(this->sideB);
+            this->chessb.cal(this->sideB);
             i++;
             this->print();
             this->repaint();
@@ -45,13 +45,13 @@ void agentvsagent::singleround(){
     int i=0;
     while(this->chessb.endgame()==3&&i<2){
         if(this->chessb.getplayernow()==0){
-            this->cal(this->sideA);
+            this->chessb.cal(this->sideA);
             this->print();
             this->repaint();
             i++;
             std::this_thread::sleep_for(std::chrono::milliseconds(550));
         }else if(this->chessb.getplayernow()==1){
-            this->cal(this->sideB);
+            this->chessb.cal(this->sideB);
             this->print();
             this->repaint();
             i++;
@@ -63,13 +63,13 @@ void agentvsagent::fiveround(){
     int i=0;
     while(this->chessb.endgame()==3&&i<10){
         if(this->chessb.getplayernow()==0){
-            this->cal(this->sideA);
+            this->chessb.cal(this->sideA);
             i++;
             this->print();
             this->repaint();
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }else if(this->chessb.getplayernow()==1){
-            this->cal(this->sideB);
+            this->chessb.cal(this->sideB);
             i++;
             this->print();
             this->repaint();

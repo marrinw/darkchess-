@@ -1,14 +1,23 @@
 #include"netserver.h"
 #include<QPushButton>
 netserver::netserver(){
-    this->serverSide=0;
-    this->setWindowTitle("服务器端红人");
+    srand(time(0));
+    this->serverSide=rand()%2;
+    this->setWindowTitle("服务器端人");
     this->server=new QTcpServer(this);
     this->server->listen(QHostAddress::Any,8080);
     this->flashButton=new QPushButton(this);
     this->flashButton->setFixedSize(250,80);
     this->flashButton->move(20,400);
     this->flashButton->setText("刷新棋盘（如果卡了或不同步）");
+    this->showSide=new QLabel(this);
+    this->showSide->resize(140,50);
+    this->showSide->move(290,400);
+    if(this->serverSide){
+        this->showSide->setText("你是黑子");
+    }else if(!this->serverSide){
+        this->showSide->setText("你是红子");
+    }
     connect(this->flashButton,SIGNAL(clicked()),this,SLOT(flash()));
     connect(server,SIGNAL(newConnection()),this,SLOT(ConnectToClient()));
 
@@ -58,8 +67,10 @@ void netserver::ConnectToClient(){
 }
 void netserver::sendinfo(){
     this->socket->flush();
-    char info[193];
+    char info[194];
     int i=0;
+    info[0]=(this->serverSide+1)%2+'0';
+    i++;
     for(int j=0;j<4;j++){
         for(int k=0;k<8;k++){
             info[i]=this->chessb.getchessdeck(k,j).getid()+'0';
@@ -85,8 +96,8 @@ void netserver::sendinfo(){
     int k;
     do{
         this->socket->flush();
-        k=this->socket->write(info,193);
-    }while(k!=193);
+        k=this->socket->write(info,194);
+    }while(k!=194);
 
 }
 void netserver::getclicked(int x,int y){

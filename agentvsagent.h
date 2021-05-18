@@ -3,8 +3,9 @@
 
 #include"agent.h"
 #include<QPushButton>
+#include<QLabel>
 
-class agentvsagent:public agent{
+class agentvsagent:public pvp{
     Q_OBJECT
     public slots:
         virtual void getclicked(int x,int y);

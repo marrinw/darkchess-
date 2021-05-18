@@ -4,6 +4,7 @@
 #include<QTcpSocket>
 #include"pvp.h"
 #include<QHostAddress>
+#include<QLabel>
 #include<QPushButton>
 class netclient:public pvp{
     Q_OBJECT
@@ -11,6 +12,7 @@ class netclient:public pvp{
         bool clientSide;
         QTcpSocket* socket;
         QPushButton* flashButton;
+        QLabel* showSide;
     public:
         netclient();
         ~netclient();

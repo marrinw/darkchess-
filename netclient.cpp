@@ -2,15 +2,17 @@
 #include<QPushButton>
 
 netclient::netclient(){
-    this->clientSide=1;
     this->chessb.setCilent();
-    this->setWindowTitle("客户端黑人");
+    this->setWindowTitle("客户端人");
     this->flashButton=new QPushButton(this);
     this->flashButton->setFixedSize(250,80);
     this->flashButton->move(20,400);
     this->flashButton->setText("刷新棋盘（如果卡了或不同步）");
     socket=new QTcpSocket(this);
     socket->connectToHost(QHostAddress("127.0.0.1"),8080);
+    this->showSide=new QLabel(this);
+    this->showSide->resize(140,50);
+    this->showSide->move(290,400);
     connect(this->flashButton,SIGNAL(clicked()),this,SLOT(flash()));
     connect(socket, SIGNAL(readyRead()), this, SLOT(DataArrive()));
 
@@ -21,8 +23,15 @@ netclient::~netclient(){
 }
 void netclient::DataArrive(){
     QByteArray buffer = socket->readAll();
-    if(buffer.size()==193){
+    if(buffer.size()==194){
         int i=0;
+        this->clientSide=buffer[i]-'0';
+        if(this->clientSide){
+            this->showSide->setText("你是黑子");
+        }else if(!this->clientSide){
+            this->showSide->setText("你是红子");
+        }
+        i++;
         for(int j=0;j<4;j++){
             for(int k=0;k<8;k++){
                 this->chessb.changechessdeck(k,j).changeid(buffer[i]-'0');

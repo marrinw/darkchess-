@@ -11,6 +11,7 @@ void chessboard::initialize(){
     this->chessRemained[1]=16;
     this->deadchesscount=0;
     bool tempoccupied[32]={0};
+    memset(tempoccupied,0,32*sizeof(bool));
     unsigned seed=time(0);
     srand(seed);
     for(int side=0;side<2;side++){
@@ -175,14 +176,14 @@ bool chessboard::cankill(int x, int y, int xfrom, int yfrom, int xto, int yto){
             int min=y<yto?y:yto;
             int max=y>yto?y:yto;
             for(min++;min!=max;min++){
-                if(this->chessdeck[min][x].getid())
+                if(this->chessdeck[min][x].getid()||(min==yfrom&&x==xfrom))
                     count++;
             }
         }else if(y==yto){
             int min=x<xto?x:xto;
             int max=x>xto?x:xto;
             for(min++;min!=max;min++){
-                if(this->chessdeck[y][min].getid())
+                if(this->chessdeck[y][min].getid()||(min==xfrom&&y==yfrom))
                     count++;
             }
         }
@@ -242,10 +243,10 @@ void chessboard::func(int x, int y){
             this->playernow=(this->playernow+1)%2;
             return;
         }
-
-
     }
 }
+
+
 
 int chessboard::endgame(){
     if(this->chessRemained[0]==0){
@@ -923,10 +924,12 @@ void chessboard::cal(bool agentSide){
                             flag5=1;
                             xfrom=j;
                             yfrom=i;
-                            break;
                         }else{
                             darkcount--;
                         }
+                    }
+                    if(flag5){
+                        break;
                     }
                 }
                 if(flag5){

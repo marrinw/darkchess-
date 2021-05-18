@@ -37,6 +37,10 @@ MainWindow::MainWindow(QWidget *parent)
     this->pushButton7->setText("客户端机");
     this->pushButton7->move(5,95);
     this->pushButton7->resize(100,45);
+    this->showHelpButton=new QPushButton(this);
+    this->showHelpButton->move(90,200);
+    this->showHelpButton->resize(100,45);
+    this->showHelpButton->setText("规则帮助");
     connect(this->pushButton1,SIGNAL(clicked(bool)),this,SLOT(creategame1()));
     connect(this->pushButton2,SIGNAL(clicked(bool)),this,SLOT(creategame2()));
     connect(this->pushButton3,SIGNAL(clicked(bool)),this,SLOT(creategame3()));
@@ -44,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this->pushButton5,SIGNAL(clicked(bool)),this,SLOT(creategame5()));
     connect(this->pushButton6,SIGNAL(clicked(bool)),this,SLOT(creategame6()));
     connect(this->pushButton7,SIGNAL(clicked(bool)),this,SLOT(creategame7()));
+    connect(this->showHelpButton,SIGNAL(clicked(bool)),this,SLOT(showHelpMessage()));
 
 }
 
@@ -79,4 +84,8 @@ void MainWindow::creategame6(){
 void MainWindow::creategame7(){
     this->game7=new clientagent;
     this->game7->show();
+}
+
+void MainWindow::showHelpMessage(){
+    QMessageBox::information(this,tr("help"), tr("此暗棋的炮只能打不能空走\n 当一方有棋子不能被对方任何棋子吃时，游戏结束\n打开新的cs时请关闭程序重新打开"));
 }
