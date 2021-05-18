@@ -1,12 +1,19 @@
 #include"netclient.h"
-
+#include<QPushButton>
 
 netclient::netclient(){
     this->clientSide=1;
+    this->chessb.setCilent();
     this->setWindowTitle("客户端黑人");
+    this->flashButton=new QPushButton(this);
+    this->flashButton->setFixedSize(250,80);
+    this->flashButton->move(20,400);
+    this->flashButton->setText("刷新棋盘（如果卡了或不同步）");
     socket=new QTcpSocket(this);
     socket->connectToHost(QHostAddress("127.0.0.1"),8080);
+    connect(this->flashButton,SIGNAL(clicked()),this,SLOT(flash()));
     connect(socket, SIGNAL(readyRead()), this, SLOT(DataArrive()));
+
 }
 netclient::~netclient(){
     this->socket->close();
@@ -51,4 +58,9 @@ void netclient::getclicked(int x,int y){
     this->socket->write(info,2);
 
 }
-
+void netclient::flash(){
+    char info[1];
+    info[0]=100;
+    this->socket->flush();
+    this->socket->write(info,1);
+}

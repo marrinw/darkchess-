@@ -26,19 +26,25 @@ void netserver::flash(){
 
 void netserver::DataArrive(){
     QByteArray buffer = socket->readAll();
-    if(this->chessb.getplayernow()!=this->serverSide){
-        int x=buffer[0];
-        int y=buffer[1];
-        this->chessb.func(x,y);
-        if(buffer.size()==4){
-            x=buffer[2];
-            y=buffer[3];
-            this->chessb.func(x,y);
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(150));
-        this->print();
-        this->repaint();
+    if(int(buffer[0])==100){
         this->sendinfo();
+        return;
+    }
+    if(buffer.size()<5){
+        if(this->chessb.getplayernow()!=this->serverSide){
+            int x=buffer[0];
+            int y=buffer[1];
+            this->chessb.func(x,y);
+            if(buffer.size()==4){
+                x=buffer[2];
+                y=buffer[3];
+                this->chessb.func(x,y);
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(150));
+            this->print();
+            this->repaint();
+            this->sendinfo();
+        }
     }
 
 }

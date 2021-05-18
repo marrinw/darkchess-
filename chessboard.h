@@ -26,6 +26,7 @@ class chessboard{
             1,1,0,0,0,0,0,0,
         };
         int valuetable[8]={0,7,6,4,3,2,5,1};
+        bool isClient=0;
         
     public:
         void initialize();
@@ -46,9 +47,9 @@ class chessboard{
         void cal(bool agentSide);                   //agent calaculate
         void changeplayernow(bool side);            //only used in client :change its current player same to server
         int clientAgentinfo[5];                     //only used in clientAgent: store the calaculation of agent
-        void clientAgentCal(bool agentSide);             //only used in clientAgent :agent calaculate
         void countchess();                              //only used in clientagent: count the chessinfo
         asspos chasepath(int xfrom,int yfrom,int xto,int yto);
+        void setCilent();
         
 };
 

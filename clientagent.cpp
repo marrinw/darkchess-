@@ -3,6 +3,7 @@
 clientagent::clientagent(){
     srand(time(0));
     this->setWindowTitle("客户端机");
+    this->chessb.setCilent();
 }
 
 void clientagent::getclicked(int x,int y){
@@ -51,7 +52,7 @@ void clientagent::DataArrive(){
         this->print();
         this->repaint();
         if(this->chessb.getplayernow()==this->clientSide&&this->chessb.endgame()==3){
-            this->chessb.clientAgentCal(this->clientSide);
+            this->chessb.cal((this->clientSide));
             this->sendinfo();
         }
     }
