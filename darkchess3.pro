@@ -11,7 +11,9 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    ConnectedServer.cpp\
     assForAgent.cpp\
+    clientagentB.cpp\
     main.cpp\
     mainwindow.cpp\
     chessman.cpp\
@@ -25,7 +27,9 @@ SOURCES += \
     serveragent.cpp\
     clientagent.cpp
 HEADERS += \
+    ConnectedServer.h\
     assForAgent.h\
+    clientagentB.h\
     mainwindow.h\
     chessman.h\
     chesslabel.h\

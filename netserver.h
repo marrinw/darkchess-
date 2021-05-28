@@ -25,7 +25,7 @@ class netserver:public pvp{
         virtual void DataArrive();
     public slots:
         virtual void getclicked(int x,int y);
-        void flash();
+        virtual void flash();
 };
 
 

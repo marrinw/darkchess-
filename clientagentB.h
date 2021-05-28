@@ -1,26 +1,24 @@
-#ifndef NETCLIENT_H
-#define NETCLIENT_H
+#ifndef CLIENTAGENTB_H
+#define CLIENTAGENTB_H
 
-#include<QTcpSocket>
-#include"pvp.h"
-#include<QHostAddress>
-#include<QLabel>
-#include<QPushButton>
-class netclient:public pvp{
-        Q_OBJECT
+#include"clientagent.h"
+class clientagentB: public pvp{
+    Q_OBJECT
     protected:
         bool clientSide;
         QTcpSocket* socket;
         QPushButton* flashButton;
         QLabel* showSide;
     public:
-        netclient();
-        ~netclient();
+        clientagentB();
+        ~clientagentB();
+        void sendinfo();
     public slots:
         virtual void DataArrive();
     public slots:
         virtual void getclicked(int x,int y);
         void flash();
+
 };
 
-#endif // NETCLIENT_H
+#endif // CLIENTAGENTB_H

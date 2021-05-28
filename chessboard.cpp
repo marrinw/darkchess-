@@ -152,6 +152,9 @@ bool chessboard::cankill(int x, int y, int x2, int y2){
 }
 
 bool chessboard::cankill(int x, int y, int xfrom, int yfrom, int xto, int yto){
+    if((x==xfrom&&y==yfrom)||(x==xto&&y==yto)||(xfrom==xto&&yfrom==yto)){
+        return 0;
+    }
     if(!this->chessdeck[yfrom][xfrom].getid()||!this->chessdeck[y][x].getid())
         return 0;
     if(!this->chessdeck[yfrom][xfrom].getvisible()||!this->chessdeck[y][x].getvisible())
@@ -850,7 +853,7 @@ void chessboard::cal(bool agentSide){
                 for(int i=0;i<4;i++){
                     for(int j=0;j<8;j++){
                         if(this->chessdeck[i][j].getid()&&this->chessdeck[i][j].getvisible()&&this->chessdeck[i][j].getside()==agentSide){
-                            count3--;
+                            count2--;
                             if(this->chessdeck[i][j].getid()==6){
                                 continue;
                             }
@@ -895,11 +898,11 @@ void chessboard::cal(bool agentSide){
                                 }
                             }
                         }
-                        if(count3==0){
+                        if(count2==0){
                             break;
                         }
                     }
-                    if(count3==0){
+                    if(count2==0){
                         break;
                     }
                 }

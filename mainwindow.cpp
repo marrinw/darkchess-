@@ -37,10 +37,22 @@ MainWindow::MainWindow(QWidget *parent)
     this->pushButton7->setText("客户端机");
     this->pushButton7->move(5,95);
     this->pushButton7->resize(100,45);
+    this->pushButton8=new QPushButton(this);
+    this->pushButton8->setText("客v客A机");
+    this->pushButton8->move(115,95);
+    this->pushButton8->resize(100,45);
+    this->pushButton9=new QPushButton(this);
+    this->pushButton9->setText("客v客B机");
+    this->pushButton9->move(225,95);
+    this->pushButton9->resize(100,45);
+    this->pushButton10=new QPushButton(this);
+    this->pushButton10->setText("客v客服务器");
+    this->pushButton10->move(5,145);
+    this->pushButton10->resize(100,45);
     this->showHelpButton=new QPushButton(this);
-    this->showHelpButton->move(90,200);
+    this->showHelpButton->move(90,210);
     this->showHelpButton->resize(100,45);
-    this->showHelpButton->setText("规则帮助");
+    this->showHelpButton->setText("说明帮助");
     connect(this->pushButton1,SIGNAL(clicked(bool)),this,SLOT(creategame1()));
     connect(this->pushButton2,SIGNAL(clicked(bool)),this,SLOT(creategame2()));
     connect(this->pushButton3,SIGNAL(clicked(bool)),this,SLOT(creategame3()));
@@ -48,6 +60,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this->pushButton5,SIGNAL(clicked(bool)),this,SLOT(creategame5()));
     connect(this->pushButton6,SIGNAL(clicked(bool)),this,SLOT(creategame6()));
     connect(this->pushButton7,SIGNAL(clicked(bool)),this,SLOT(creategame7()));
+    connect(this->pushButton8,SIGNAL(clicked(bool)),this,SLOT(creategame8()));
+    connect(this->pushButton9,SIGNAL(clicked(bool)),this,SLOT(creategame9()));
+    connect(this->pushButton10,SIGNAL(clicked(bool)),this,SLOT(creategame10()));
     connect(this->showHelpButton,SIGNAL(clicked(bool)),this,SLOT(showHelpMessage()));
 
 }
@@ -85,7 +100,22 @@ void MainWindow::creategame7(){
     this->game7=new clientagent;
     this->game7->show();
 }
+void MainWindow::creategame8(){
+    this->game8=new clientagent;
+    this->game8->setWindowTitle("客v客A机");
+    this->game8->show();
+}
+void MainWindow::creategame9(){
+    this->game9=new clientagentB;
+    this->game9->show();
+}
+void MainWindow::creategame10(){
+    this->game10=new connectedServer;
+    this->game10->show();
+}
+
+
 
 void MainWindow::showHelpMessage(){
-    QMessageBox::information(this,tr("help"), tr("此暗棋的炮只能打不能空走\n 当一方有棋子不能被对方任何棋子吃时，游戏结束\n打开新的cs时请关闭程序重新打开"));
+    QMessageBox::information(this,tr("help"), tr("此暗棋的炮只能打不能空走\n当一方有棋子不能被对方任何棋子吃时，游戏结束\n如果一方只剩下炮，则和棋\n打开新的cs时请关闭程序重新打开\ncs程序占用8080和8081端口\ncvc时先打开server"));
 }
