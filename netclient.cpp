@@ -15,6 +15,7 @@ netclient::netclient(){
     this->showSide->move(290,400);
     connect(this->flashButton,SIGNAL(clicked()),this,SLOT(flash()));
     connect(socket, SIGNAL(readyRead()), this, SLOT(DataArrive()));
+    this->flashButton->setDisabled(1);
 
 }
 netclient::~netclient(){
@@ -22,6 +23,7 @@ netclient::~netclient(){
     delete this->socket;
 }
 void netclient::DataArrive(){
+    this->flashButton->setDisabled(0);
     QByteArray buffer = socket->readAll();
     if(buffer.size()==194){
         int i=0;

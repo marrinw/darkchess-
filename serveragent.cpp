@@ -5,6 +5,7 @@ serveragent::serveragent(){
 
 }
 void serveragent::ConnectToClient(){
+    this->flashButton->setDisabled(0);
     this->socket=this->server->nextPendingConnection();
     connect(socket, SIGNAL(readyRead()), this, SLOT(DataArrive()));
     this->print();

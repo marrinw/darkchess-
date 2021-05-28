@@ -7,6 +7,7 @@ clientagentB::clientagentB(){
     this->flashButton->setFixedSize(250,80);
     this->flashButton->move(20,400);
     this->flashButton->setText("刷新棋盘（如果卡了或不同步）");
+    this->flashButton->setDisabled(1);
     socket=new QTcpSocket(this);
     socket->connectToHost(QHostAddress("127.0.0.1"),8081);
     this->showSide=new QLabel(this);
@@ -16,13 +17,15 @@ clientagentB::clientagentB(){
     this->chessb.setCilent();
     connect(this->flashButton,SIGNAL(clicked()),this,SLOT(flash()));
     connect(socket, SIGNAL(readyRead()), this, SLOT(DataArrive()));
+
 }
 clientagentB::~clientagentB(){
     this->socket->close();
     delete this->socket;
 }
 
-    void clientagentB::DataArrive(){
+void clientagentB::DataArrive(){
+    this->flashButton->setDisabled(0);
     QByteArray buffer = socket->readAll();
     if(buffer.size()==194){
         int i=0;

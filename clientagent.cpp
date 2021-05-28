@@ -23,6 +23,7 @@ void clientagent::sendinfo(){
     }
 }
 void clientagent::DataArrive(){
+    this->flashButton->setDisabled(0);
     QByteArray buffer = socket->readAll();
     if(buffer.size()==194){
         int i=0;

@@ -10,6 +10,7 @@ netserver::netserver(){
     this->flashButton->setFixedSize(250,80);
     this->flashButton->move(20,400);
     this->flashButton->setText("刷新棋盘（如果卡了或不同步）");
+    this->flashButton->setDisabled(1);
     this->showSide=new QLabel(this);
     this->showSide->resize(140,50);
     this->showSide->move(290,400);
@@ -20,6 +21,7 @@ netserver::netserver(){
     }
     connect(this->flashButton,SIGNAL(clicked()),this,SLOT(flash()));
     connect(server,SIGNAL(newConnection()),this,SLOT(ConnectToClient()));
+
 
 }
 
@@ -58,6 +60,7 @@ void netserver::DataArrive(){
 
 }
 void netserver::ConnectToClient(){
+    this->flashButton->setDisabled(0);
     this->socket=this->server->nextPendingConnection();
     connect(socket, SIGNAL(readyRead()), this, SLOT(DataArrive()));
     this->sendinfo();

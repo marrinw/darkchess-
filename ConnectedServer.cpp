@@ -20,6 +20,7 @@ connectedServer::connectedServer(){
     this->flashButton->setFixedSize(250,80);
     this->flashButton->move(5,5);
     this->flashButton->setText("刷新棋盘（如果卡了或不同步）");
+    this->flashButton->setDisabled(1);
     this->serverB=new QTcpServer(this);
     this->serverB->listen(QHostAddress::Any,8081);
     connect(serverB,SIGNAL(newConnection()),this,SLOT(ConnectToClientB()));
@@ -66,6 +67,7 @@ void connectedServer::startGame(){
     this->socketB->flush();
     connect(socketA, SIGNAL(readyRead()), this, SLOT(ADataArrive()));
     connect(socketB, SIGNAL(readyRead()), this, SLOT(BDataArrive()));
+    this->flashButton->setDisabled(0);
     this->sendinfo();
 }
 void connectedServer::ADataArrive(){
