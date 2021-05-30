@@ -22,10 +22,14 @@ pvp::pvp(QWidget *parent):QMainWindow(parent){
     this->showboard=new QLabel(this);
     this->showboard->move(10,10);
     this->showboard->resize(40,20);
+    QFont ft;
+    ft.setFamily("楷体");
+    this->showboard->setFont(ft);
     this->showboard->setText("棋盘");
     this->showdeadboard=new QLabel(this);
     this->showdeadboard->move(600,10);
     this->showdeadboard->resize(80,20);
+    this->showdeadboard->setFont(ft);
     this->showdeadboard->setText("棋子尸体");
     this->showPlayerLabel=new QLabel(this);
     this->showPlayerLabel->move(20,300);
@@ -50,6 +54,8 @@ int pvp::print(){
                     this->chessl[i][j]->setText("");
                 }else{
                     QFont ft;
+                    ft.setFamily("楷体");
+                    ft.setBold(true);
                     ft.setPointSize(20);
                     this->chessl[i][j]->setFont(ft);
                     QPalette pe;
@@ -119,6 +125,7 @@ int pvp::print(){
                     this->deadchessl[i][j]->setText("");
                 }else{
                     QFont ft;
+                    ft.setFamily("楷体");
                     ft.setPointSize(20);
                     this->deadchessl[i][j]->setFont(ft);
                     QPalette pe;
@@ -178,6 +185,9 @@ int pvp::print(){
         showstring="红方执子";
     }
     this->showPlayerLabel->setText(showstring);
+    QFont ft;
+    ft.setFamily("楷体");
+    this->showPlayerLabel->setFont(ft);
     this->repaint();
     int ifend=this->chessb.endgame();
         switch (ifend) {

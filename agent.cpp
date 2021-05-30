@@ -7,6 +7,9 @@ agent::agent(){
     this->showside=new QLabel(this);
     this->showside->move(20,400);
     this->showside->resize(140,50);
+    QFont ft;
+    ft.setFamily("楷体");
+    this->showside->setFont(ft);
     if(this->side){
         this->showside->setText("你是红方");
     }else{

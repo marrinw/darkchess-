@@ -28,6 +28,9 @@ void netclient::DataArrive(){
     if(buffer.size()==194){
         int i=0;
         this->clientSide=buffer[i]-'0';
+        QFont ft;
+        ft.setFamily("楷体");
+        this->showSide->setFont(ft);
         if(this->clientSide){
             this->showSide->setText("你是黑子");
         }else if(!this->clientSide){
