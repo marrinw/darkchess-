@@ -49,7 +49,7 @@ class chessboard{
         int clientAgentinfo[5];                     //only used in clientAgent: store the calaculation of agent
         void countchess();                              //only used in clientagent: count the chessinfo
         asspos chasepath(int xfrom,int yfrom,int xto,int yto);
-        void setCilent();
+        void setCilent();                               //set it a client if it is
         
 };
 

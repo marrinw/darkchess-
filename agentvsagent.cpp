@@ -23,17 +23,14 @@ agentvsagent::agentvsagent(){
 }
 
 void agentvsagent::startgame(){
-    int i=0;
     while(this->chessb.endgame()==3){
         if(this->chessb.getplayernow()==0){
             this->chessb.cal(this->sideA);
-            i++;
             this->print();
             this->repaint();
             //std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }else if(this->chessb.getplayernow()==1){
             this->chessb.cal(this->sideB);
-            i++;
             this->print();
             this->repaint();
             //std::this_thread::sleep_for(std::chrono::milliseconds(100));

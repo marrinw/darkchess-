@@ -235,7 +235,7 @@ void chessboard::func(int x, int y){
         if(!this->canmove(x1,y1,x,y)){
             this->duringfunc=0;
             return;
-        }else if(this->chessdeck[y][x].getid()==0){
+        }else if(this->chessdeck[y][x].getid()==0&&this->chessdeck[y1][x1].getid()!=6){
             this->justmove(x1,y1,x,y);
             this->duringfunc=0;
             this->playernow=(this->playernow+1)%2;
@@ -518,7 +518,7 @@ void chessboard::cal(bool agentSide){
                             bool flagRun=0;
                             for(int i2=0;i2<4;i2++){
                                 for(int j2=0;j2<8;j2++){
-                                    if(this->chessdeck[i2][j2].getid()&&this->cankill(j2,i2,j,i)){
+                                    if(this->chessdeck[i2][j2].getid()&&this->chessdeck[i2][j2].getvisible()&&this->chessdeck[i2][j2].getside()!=agentSide&&this->cankill(j2,i2,j,i)){
                                         flagRun=1;
                                         assChess tempRunChess;
                                         tempRunChess.x=j;

@@ -11,7 +11,8 @@
 #include<chessboard.h>
 #include<chesslabel.h>
 #include <QMouseEvent>
-
+#include<QImage>
+#include<QPixmap>
 
 class pvp : public QMainWindow
 {
@@ -24,6 +25,7 @@ class pvp : public QMainWindow
         virtual void getclicked(int x,int y);
 
     protected:
+        QLabel* showpicLabel;
         chessboard chessb;
         chesslabel* chessl[4][8];
         QLabel* deadchessl[4][8];

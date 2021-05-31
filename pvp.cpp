@@ -4,6 +4,13 @@
 pvp::pvp(QWidget *parent):QMainWindow(parent){
     this->setWindowTitle("人人对战");
     this->setFixedSize(1250,500);
+    this->showpicLabel=new QLabel(this);
+    this->showpicLabel->resize(200,200);
+    this->showpicLabel->move(1050,300);
+    QImage img;
+    img.load(QString("pic.jpg"));
+    this->showpicLabel->setPixmap(QPixmap::fromImage(img));
+
     this->chessb.initialize();
     for(int i=0;i<4;i++){
         for(int j=0;j<8;j++){
@@ -126,6 +133,7 @@ int pvp::print(){
                 }else{
                     QFont ft;
                     ft.setFamily("楷体");
+                    ft.setBold(true);
                     ft.setPointSize(20);
                     this->deadchessl[i][j]->setFont(ft);
                     QPalette pe;
