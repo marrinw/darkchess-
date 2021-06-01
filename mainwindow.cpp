@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 #include<QPushButton>
 #include<QFont>
+#include<QPalette>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -9,64 +10,92 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     QFont ft;
     ft.setBold(true);
+    ft.setPointSize(9);
     ft.setFamily("楷体");
+    QPalette palette(Qt::white);
     this->setWindowTitle("象棋暗棋");
     this->setFixedSize(400,300);
     this->pushButton1=new QPushButton(this);
     this->pushButton1->setText("人人对战");
     this->pushButton1->setFont(ft);
     this->pushButton1->move(5,5);
+    this->pushButton1->setFlat(true);
     this->pushButton1->resize(100,45);
     this->pushButton2=new QPushButton(this);
     this->pushButton2->setText("人机对战");
     this->pushButton2->setFont(ft);
+    this->pushButton2->setFlat(true);
     this->pushButton2->move(115,5);
     this->pushButton2->resize(100,45);
     this->pushButton3=new QPushButton(this);
     this->pushButton3->setText("机机对战");
     this->pushButton3->setFont(ft);
+    this->pushButton3->setFlat(true);
     this->pushButton3->move(225,5);
     this->pushButton3->resize(100,45);
     this->pushButton4=new QPushButton(this);
     this->pushButton4->setText("服务器端人");
     this->pushButton4->setFont(ft);
+    this->pushButton4->setFlat(true);
     this->pushButton4->move(5,55);
     this->pushButton4->resize(100,45);
     this->pushButton5=new QPushButton(this);
     this->pushButton5->setText("客户端人");
     this->pushButton5->setFont(ft);
+    this->pushButton5->setFlat(true);
     this->pushButton5->move(115,55);
     this->pushButton5->resize(100,45);
     this->pushButton6=new QPushButton(this);
     this->pushButton6->setText("服务端机");
     this->pushButton6->setFont(ft);
+    this->pushButton6->setFlat(true);
     this->pushButton6->move(225,55);
     this->pushButton6->resize(100,45);
     this->pushButton7=new QPushButton(this);
     this->pushButton7->setText("客户端机");
     this->pushButton7->setFont(ft);
+    this->pushButton7->setFlat(true);
     this->pushButton7->move(5,95);
     this->pushButton7->resize(100,45);
     this->pushButton8=new QPushButton(this);
     this->pushButton8->setText("客v客A机");
     this->pushButton8->setFont(ft);
+    this->pushButton8->setFlat(true);
     this->pushButton8->move(115,95);
     this->pushButton8->resize(100,45);
     this->pushButton9=new QPushButton(this);
     this->pushButton9->setText("客v客B机");
     this->pushButton9->setFont(ft);
+    this->pushButton9->setFlat(true);
     this->pushButton9->move(225,95);
     this->pushButton9->resize(100,45);
     this->pushButton10=new QPushButton(this);
     this->pushButton10->setText("客v客服务器");
     this->pushButton10->setFont(ft);
+    this->pushButton10->setFlat(true);
     this->pushButton10->move(5,145);
-    this->pushButton10->resize(100,45);
+    this->pushButton10->resize(120,45);
     this->showHelpButton=new QPushButton(this);
-    this->showHelpButton->move(90,210);
+    this->showHelpButton->move(5,210);
     this->showHelpButton->resize(100,45);
+    this->showHelpButton->setFlat(true);
     this->showHelpButton->setFont(ft);
     this->showHelpButton->setText("说明帮助");
+    this->titlePicLabel=new QLabel(this);
+    this->titlePicLabel->resize(155,70);
+    this->titlePicLabel->move(102,200);
+    this->picLabel=new QLabel(this);
+    this->picLabel->move(250,150);
+    this->picLabel->resize(150,150);
+    QImage img;
+    img.load(QString("chesspic.jpg"));
+    this->picLabel->setPixmap(QPixmap::fromImage(img));
+    img.load(QString("titlepic.PNG"));
+    this->titlePicLabel->setPixmap(QPixmap::fromImage(img));
+
+    this->autoFillBackground();
+
+    this->setPalette(palette);
     connect(this->pushButton1,SIGNAL(clicked(bool)),this,SLOT(creategame1()));
     connect(this->pushButton2,SIGNAL(clicked(bool)),this,SLOT(creategame2()));
     connect(this->pushButton3,SIGNAL(clicked(bool)),this,SLOT(creategame3()));
@@ -117,6 +146,9 @@ void MainWindow::creategame7(){
 void MainWindow::creategame8(){
     this->game8=new clientagent;
     this->game8->setWindowTitle("客v客A机");
+    QImage img;
+    img.load(QString("kea.PNG"));
+    this->game8->showGameTypeLabel->setPixmap(QPixmap::fromImage(img));
     this->game8->show();
 }
 void MainWindow::creategame9(){

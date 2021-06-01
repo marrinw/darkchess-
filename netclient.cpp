@@ -11,8 +11,11 @@ netclient::netclient(){
     socket=new QTcpSocket(this);
     socket->connectToHost(QHostAddress("127.0.0.1"),8080);
     this->showSide=new QLabel(this);
-    this->showSide->resize(140,50);
+    this->showSide->resize(160,50);
     this->showSide->move(290,400);
+    QImage img;
+    img.load(QString("kehuduanren.PNG"));
+    this->showGameTypeLabel->setPixmap(QPixmap::fromImage(img));
     connect(this->flashButton,SIGNAL(clicked()),this,SLOT(flash()));
     connect(socket, SIGNAL(readyRead()), this, SLOT(DataArrive()));
     this->flashButton->setDisabled(1);
@@ -30,6 +33,8 @@ void netclient::DataArrive(){
         this->clientSide=buffer[i]-'0';
         QFont ft;
         ft.setFamily("楷体");
+        ft.setBold(true);
+        ft.setPointSize(16);
         this->showSide->setFont(ft);
         if(this->clientSide){
             this->showSide->setText("你是黑子");

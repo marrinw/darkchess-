@@ -12,10 +12,15 @@ netserver::netserver(){
     this->flashButton->setText("刷新棋盘（如果卡了或不同步）");
     this->flashButton->setDisabled(1);
     this->showSide=new QLabel(this);
-    this->showSide->resize(140,50);
+    this->showSide->resize(160,50);
     this->showSide->move(290,400);
+    QImage img;
+    img.load(QString("fuwuduanren.PNG"));
+    this->showGameTypeLabel->setPixmap(QPixmap::fromImage(img));
     QFont ft;
     ft.setFamily("楷体");
+    ft.setBold(true);
+    ft.setPointSize(16);
     this->showSide->setFont(ft);
     if(this->serverSide){
         this->showSide->setText("你是黑子");

@@ -19,12 +19,14 @@ class pvp : public QMainWindow
     Q_OBJECT
 
     public:
+        QLabel *showGameTypeLabel;
         pvp(QWidget *parent = nullptr);
         int print();
     public slots:
         virtual void getclicked(int x,int y);
 
     protected:
+        QLabel* chessPicLabel;
         QLabel* showpicLabel;
         chessboard chessb;
         chesslabel* chessl[4][8];

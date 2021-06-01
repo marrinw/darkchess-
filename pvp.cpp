@@ -10,6 +10,16 @@ pvp::pvp(QWidget *parent):QMainWindow(parent){
     QImage img;
     img.load(QString("pic.jpg"));
     this->showpicLabel->setPixmap(QPixmap::fromImage(img));
+    this->chessPicLabel=new QLabel(this);
+    this->chessPicLabel->resize(200,200);
+    this->chessPicLabel->move(1055,96);
+    img.load(QString("chesspic2.jpg"));
+    this->chessPicLabel->setPixmap(QPixmap::fromImage(img));
+    this->showGameTypeLabel=new QLabel(this);
+    this->showGameTypeLabel->resize(350,90);
+    this->showGameTypeLabel->move(550,394);
+    img.load(QString("renren.PNG"));
+    this->showGameTypeLabel->setPixmap(QPixmap::fromImage(img));
 
     this->chessb.initialize();
     for(int i=0;i<4;i++){
@@ -31,6 +41,7 @@ pvp::pvp(QWidget *parent):QMainWindow(parent){
     this->showboard->resize(40,20);
     QFont ft;
     ft.setFamily("楷体");
+    ft.setBold(true);
     this->showboard->setFont(ft);
     this->showboard->setText("棋盘");
     this->showdeadboard=new QLabel(this);
@@ -195,6 +206,8 @@ int pvp::print(){
     this->showPlayerLabel->setText(showstring);
     QFont ft;
     ft.setFamily("楷体");
+    ft.setBold(true);
+    ft.setPointSize(15);
     this->showPlayerLabel->setFont(ft);
     this->repaint();
     int ifend=this->chessb.endgame();

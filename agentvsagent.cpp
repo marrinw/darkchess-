@@ -17,6 +17,9 @@ agentvsagent::agentvsagent(){
     this->fiveRoundGameButton=new QPushButton("五回合",this);
     this->fiveRoundGameButton->resize(150,50);
     this->fiveRoundGameButton->move(350,400);
+    QImage img;
+    img.load(QString("jiji.PNG"));
+    this->showGameTypeLabel->setPixmap(QPixmap::fromImage(img));
     connect(this->startButton,SIGNAL(clicked()),this,SLOT(startgame()));
     connect(this->singleRoundButton,SIGNAL(clicked()),this,SLOT(singleround()));
     connect(this->fiveRoundGameButton,SIGNAL(clicked()),this,SLOT(fiveround()));

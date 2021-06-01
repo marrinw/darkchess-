@@ -1,7 +1,10 @@
 #include"serveragent.h"
 
 serveragent::serveragent(){
-    this->setWindowTitle("服务器端红机");
+    this->setWindowTitle("服务器端机");
+    QImage img;
+    img.load(QString("fuwuduanji.PNG"));
+    this->showGameTypeLabel->setPixmap(QPixmap::fromImage(img));
 
 }
 void serveragent::ConnectToClient(){

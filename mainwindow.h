@@ -12,6 +12,7 @@
 #include"clientagent.h"
 #include"clientagentB.h"
 #include"ConnectedServer.h"
+#include<QLabel>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -37,6 +38,8 @@ class MainWindow : public QMainWindow
         QPushButton* pushButton9;
         QPushButton* pushButton10;
         QPushButton* showHelpButton;
+        QLabel* picLabel;
+        QLabel* titlePicLabel;
         pvp* game1;
         agent* game2;
         agentvsagent* game3;

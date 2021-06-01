@@ -992,3 +992,7 @@ void chessboard::countchess(){
 void chessboard::setCilent(){
     this->isClient=1;
 }
+
+void chessboard::setduringfuncZero(){
+    this->duringfunc=0;
+}

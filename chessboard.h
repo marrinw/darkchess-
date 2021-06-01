@@ -29,6 +29,7 @@ class chessboard{
         bool isClient=0;
         
     public:
+        void setduringfuncZero();               //duringfnc=0
         void initialize();
         void turn(int x,int y);         //turn a chess to visible
         void justmove(int x,int y,int x2,int y2);   //move a chess to unoccupied

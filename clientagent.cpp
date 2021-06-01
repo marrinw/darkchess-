@@ -4,6 +4,9 @@ clientagent::clientagent(){
     srand(time(0));
     this->setWindowTitle("客户端机");
     this->chessb.setCilent();
+    QImage img;
+    img.load(QString("kehuduanji.PNG"));
+    this->showGameTypeLabel->setPixmap(QPixmap::fromImage(img));
 }
 
 void clientagent::getclicked(int x,int y){
